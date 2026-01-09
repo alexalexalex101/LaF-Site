@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCTV's Lost and Found</title>
+    <title>PCTVS Lost and Found</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <header>
             <div class="logo-container">
+                <a href="index.html">
                 <img src="images/pctvslogo.png" alt="PCTVS Lost and Found Logo" class="logo">
-            </div>
+                </a>             </div>
         </header>
 
         <main>
+            <div class="flexcolumn">
             <div class="content-box">
                 <h1>WOULD YOU LIKE TO...</h1>
                 
                 <div class="button-container">
-                    <button class="action-button">
+                    <button class="action-button" id="reportbutton">
                         <span class="button-text">REPORT A<br>LOST ITEM</span>
                     </button>
                     
                     <span class="or-text">OR...</span>
                     
-                    <button class="action-button">
+                    <button class="action-button" id="findbutton">
                         <span class="button-text">FIND A LOST<br>ITEM</span>
                     </button>
                 </div>
@@ -34,7 +36,11 @@
             <div class="box-image">
                 <img src="images/boxlogo.png" alt="Lost and Found Box">
             </div>
+            </div>
         </main>
     </div>
+
+<script src="index.js"></script>    
+
 </body>
 </html>
