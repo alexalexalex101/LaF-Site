@@ -1,5 +1,6 @@
 <?php
 session_start();
+date_default_timezone_set('America/New_York');
 
 // Create uploads folder if needed
 $uploadDir = __DIR__ . '/uploads/';
@@ -20,12 +21,27 @@ if ($conn->connect_error) {
 }
 
 // Get form data
-$item_type   = trim($_POST['item_type']   ?? '');
+$item_type   = trim($_POST['item_type'] ?? '');
 $description = trim($_POST['description'] ?? '');
+$location    = trim($_POST['location'] ?? '');
+$date_found  = trim($_POST['date_found'] ?? '');
 
-if (empty($item_type) || empty($description)) {
+// Use today's date if user didn't provide one (backup)
+if (empty($date_found)) {
+    $date_found = date('Y-m-d');
+}
+
+// Validate date format (optional safety)
+if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $date_found)) {
     $_SESSION['form_status'] = 'error';
-    $_SESSION['form_message'] = 'Item type and description are required';
+    $_SESSION['form_message'] = 'Invalid date format for Date Found.';
+    header("Location: report.php");
+    exit;
+}
+
+if (empty($item_type) || empty($description) || empty($location)) {
+    $_SESSION['form_status'] = 'error';
+    $_SESSION['form_message'] = 'All fields are required';
     header("Location: report.php");
     exit;
 }
@@ -58,7 +74,8 @@ if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === UPLOAD_ERR
 
 // Save to database
 $stmt = $conn->prepare(
-    "INSERT INTO lost_items (item_type, description, photo) VALUES (?, ?, ?)"
+    "INSERT INTO lost_items (item_type, description, photo, location, date_found) 
+     VALUES (?, ?, ?, ?, ?)"
 );
 
 if (!$stmt) {
@@ -68,7 +85,7 @@ if (!$stmt) {
     exit;
 }
 
-$stmt->bind_param("sss", $item_type, $description, $photoName);
+$stmt->bind_param("sssss", $item_type, $description, $photoName, $location, $date_found);
 
 if ($stmt->execute()) {
     $_SESSION['form_status'] = 'success';
@@ -81,6 +98,6 @@ if ($stmt->execute()) {
 $stmt->close();
 $conn->close();
 
-// Always go back to form page
 header("Location: report.php");
 exit;
+?>
