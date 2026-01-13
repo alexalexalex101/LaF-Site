@@ -5,7 +5,7 @@
 
 ### Change IP address in emailapi.py in order to run correctly.
 
-SQL Table:
+## SQL Table:
 CREATE TABLE `lost_items` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `item_type` VARCHAR(50) DEFAULT NULL,
