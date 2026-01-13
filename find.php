@@ -59,8 +59,7 @@
                             date_default_timezone_set('America/New_York');
                             $conn = new mysqli("localhost", "root", "", "lost_and_found");
                             if (!$conn->connect_error) {
-                                $result = $conn->query("SELECT id, item_type, description, photo, location, date_found, created_at FROM lost_items ORDER BY id DESC");
-
+                                $result = $conn->query("SELECT id, item_type, description, photo, location, date_found, created_at FROM lost_items WHERE status = 'approved' ORDER BY id DESC");
                                 while ($row = $result->fetch_assoc()) {
                                     $photoPath = $row['photo'] ? "uploads/" . htmlspecialchars($row['photo']) : "images/boxlogo.png";
                                     $itemType  = htmlspecialchars($row['item_type']);

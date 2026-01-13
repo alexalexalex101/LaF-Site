@@ -68,7 +68,7 @@ document.querySelectorAll('.item-card img').forEach(img => {
                 filename: modalImage.dataset.fullphoto  // relative path like "uploads/abc.jpg"
             };
 
-            fetch('http://172.20.10.2:5000/send-inquiry', {  // ← YOUR COMPUTER'S IP HERE
+            fetch('http://192.168.1.202:5000/send-inquiry', {  // ← YOUR COMPUTER'S IP HERE
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bodyData)
@@ -100,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // === TYPE FILTERING ===
     typeFilter.addEventListener('change', () => {
-
         const selectedValue = typeFilter.value;
 
         if (selectedValue && !activeTypes.has(selectedValue)) {
@@ -111,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         typeFilter.value = '';
-        activeFiltersContainer.style.display = "flex"      
+        activeFiltersContainer.style.display = "flex";
     });
 
     function addFilterChip(type) {
@@ -130,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
             enableOption(type);
             applyFilters();
             if (activeFiltersContainer.children.length === 0) {
-                activeFiltersContainer.style.display = "none"
+                activeFiltersContainer.style.display = "none";
             }
         });
 
@@ -147,44 +146,54 @@ document.addEventListener('DOMContentLoaded', () => {
         if (option) option.disabled = false;
     }
 
+    // === Create or get the no-results message element ===
+    let noResultsMessage = document.querySelector('.no-results');
+
+    if (!noResultsMessage) {
+        noResultsMessage = document.createElement('p');
+        noResultsMessage.className = 'no-results';
+        noResultsMessage.style.color = 'white';
+        noResultsMessage.style.textAlign = 'center';
+        noResultsMessage.style.gridColumn = '1 / -1';
+        document.querySelector('.results-grid').appendChild(noResultsMessage);
+    }
+
     // === REAL-TIME SEARCH + TYPE FILTER COMBINED ===
     function applyFilters() {
         const filtersArray = Array.from(activeTypes);
         const searchTerm = searchInput.value.trim().toLowerCase();
+
+        let hasAnyFilterOrSearch = 
+            filtersArray.length > 0 || 
+            searchTerm.length > 0;
 
         allCards.forEach(card => {
             const img = card.querySelector('img');
             const itemType = img.dataset.type?.toLowerCase() || '';
             const description = img.dataset.desc?.toLowerCase() || '';
 
-            // Type match: ANY selected type (OR)
             const typeMatch = filtersArray.length === 0 || filtersArray.some(f => itemType === f);
-
-            // Search match: description OR type contains term
             const searchMatch = !searchTerm || 
                                description.includes(searchTerm) || 
                                itemType.includes(searchTerm);
 
-            // Show only if BOTH conditions pass
             card.style.display = (typeMatch && searchMatch) ? 'flex' : 'none';
         });
 
-        // Optional "No results" message
-        const visible = document.querySelectorAll('.item-card[style*="flex"]');
-        let noResults = document.querySelector('.no-results');
-        
-        if (visible.length === 0) {
-            if (!noResults) {
-                noResults = document.createElement('p');
-                noResults.className = 'no-results';
-                noResults.textContent = 'No items match your search or filters.';
-                noResults.style.color = 'white';
-                noResults.style.textAlign = 'center';
-                noResults.style.gridColumn = '1 / -1';
-                document.querySelector('.results-grid').appendChild(noResults);
+        // Count visible cards
+        const visibleCards = document.querySelectorAll('.item-card[style*="flex"]');
+        const noItemsAtAll = allCards.length === 0;
+
+        if (visibleCards.length === 0) {
+            // Decide which message to show
+            if (!hasAnyFilterOrSearch && noItemsAtAll) {
+                noResultsMessage.textContent = "No items are currently posted.";
+            } else {
+                noResultsMessage.textContent = "No items match your search or filters.";
             }
-        } else if (noResults) {
-            noResults.remove();
+            noResultsMessage.style.display = 'block';
+        } else {
+            noResultsMessage.style.display = 'none';
         }
     }
 
@@ -203,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
         typeFilter.value = '';
     });
 
-    // Initial load
+    // Initial load - very important!
     applyFilters();
 });
-
