@@ -39,7 +39,6 @@ body::before {
     min-height: 100vh;
     z-index: -1;
     pointer-events: none;
-    
     background-image: url(images/questions.png);
     background-repeat: repeat;
     background-size: 450px auto;     /* adjust this number for denser/looser pattern */
@@ -99,13 +98,14 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    padding: clamp(1.5rem, 2.5vh, 2.5rem);
-    margin-top: clamp(1.5rem, 8vh, 6rem);
+    justify-content: space-evenly;
+    padding: 5rem 0 5rem;
+    margin-top: 5vh;
     margin-bottom: clamp(1rem, 4vh, 3rem);
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
     animation: floatIn 0.8s ease-out;
     width: clamp(22rem, 50vw, 48rem);
+    min-height:40vh;
 }
 
 h1 {
@@ -125,13 +125,13 @@ h1 {
 }
 
 .action-button {
-    width: clamp(1rem, 10vw, 10rem);
-    height: clamp(1rem, 10vw, 10rem);
+    width: 9vw;
+    height: 9vw;
     border-radius: 50%;
     background-color: #004aad;
     border: 0.25rem solid #ffffff;
     color: #ffffff;
-    font-size: clamp(0.85rem, 1.2vw, 1.05rem);
+    font-size: 1.1vw;
     font-weight: 700;
     cursor: pointer;
     display: flex;
@@ -161,11 +161,14 @@ h1 {
 
 .box-image {
     animation: floatIn 1s ease-out 0.2s backwards;
-    padding-bottom: clamp(1rem, 2vh, 2rem);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex: 1;
 }
 
 .box-image img {
-    max-height: 22vh;
+    height: 25vh;
     width: auto;
     filter: drop-shadow(0 0.25rem 0.75rem rgba(0, 0, 0, 0.2));
 }
@@ -181,18 +184,7 @@ h1 {
     }
 }
 
-@media (max-width: 48rem) {
-    .button-container {
-        gap: 1rem;
-    }
-}
 
-@media (max-width: 30rem) {
-    .button-container {
-        flex-direction: column;
-        gap: 1.5rem;
-    }
-}
 
 .flexcolumn {
     display: flex;
@@ -221,6 +213,11 @@ h1 {
     font-size: clamp(1rem, 2.3vw, 1.15rem);
 }
 
+.form-field p {
+    color:#d0eaff;;
+    font-size: 0.8rem;
+}
+
 .form-field input,
 .form-field textarea,
 .form-field select {
@@ -236,9 +233,6 @@ h1 {
 }
 
 .form-field select {
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
     background-position: right 1.2rem center;
     background-size: 0.8em;
     padding-right: 2.8rem;
@@ -247,6 +241,15 @@ h1 {
 .form-field textarea {
     min-height: 110px;
     resize: vertical;
+}
+
+.form-field #date-found {
+    text-align: center;
+}
+
+.form-field:has(#date-found) {
+    display: flex;
+    align-items: center;    
 }
 
 .upload-field {
@@ -271,6 +274,7 @@ h1 {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s;
+    font-family: inherit;
 }
 
 .file-btn:hover {
@@ -299,6 +303,7 @@ h1 {
     cursor: pointer;
     margin-top: clamp(1rem, 4vh, 2.5rem);
     transition: all 0.25s ease;
+    font-family: inherit;
 }
 
 .submit-button:hover {
@@ -311,7 +316,7 @@ h1 {
 .report-card {
     width: min(90%, 520px);
     max-width: 92vw;
-    margin: clamp(2rem, 8vh, 5rem) auto clamp(2.5rem, 10vh, 6rem);
+    margin: clamp(2rem, 5vh, 5rem) auto clamp(2.5rem, 5vh, 6rem);
     padding: clamp(2rem, 5vh, 4rem);
     background-color: #165cb9;
     border-radius: 1.25rem;
@@ -352,6 +357,10 @@ main:has(.report-card) {
     text-decoration: none;             
     cursor: pointer;        
     translate:(-3000px,-10px);              
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
 }
 
 .corner-quarter::before {
@@ -360,6 +369,8 @@ main:has(.report-card) {
     inset: 0;
     border-top: 3px solid white;
     border-right: 3px solid white;
+    border-bottom: 2px solid white;
+    border-left: 2px solid white;
     border-radius: 0 100% 0 0;
 }
 
@@ -374,7 +385,6 @@ main:has(.report-card) {
 }
 
 .corner-text {
-    position: absolute;
     bottom: 2rem;
     left: 6rem;                
     color: #ffffff;
@@ -385,20 +395,8 @@ main:has(.report-card) {
     white-space: nowrap;
     pointer-events: none;
     opacity: 0.95;
-    transform: translateX(-50%); 
     z-index: 11;               
-}
-
-@media (max-width: 48rem) {
-    .corner-quarter {
-        width: clamp(120px, 25vw, 180px);
-        height: clamp(120px, 25vw, 180px);
-    }
-    
-    .corner-text {
-        font-size: clamp(1rem, 4vw, 1.3rem);
-        bottom: 25%;
-    }
+    transform: translate(-15%,25%);
 }
 
 .image-preview {
@@ -422,6 +420,13 @@ main:has(.report-card) {
     border: 2px solid rgba(255,255,255,0.4);
     box-shadow: 0 6px 20px rgba(0,0,0,0.25);
     background: white;
+}
+
+.item-date {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #666;
+    font-weight: 500;
 }
 
 .search-card {
@@ -456,6 +461,7 @@ main:has(.report-card) {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    margin-bottom: 1.6rem;
 }
 
 .filters select,
@@ -517,7 +523,6 @@ main:has(.report-card) {
 }
 
 .item-card {    
-    border: 2px solid white;
     border-radius: 1rem;
     text-align: center;
     box-sizing: border-box;
@@ -526,25 +531,6 @@ main:has(.report-card) {
     flex-direction: column; 
     justify-content: center;
     align-items: center;
-    padding: 1rem;
-}
-
-.item-card img:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
-}
-
-/* Keep the media queries for responsive columns */
-@media (max-width: 900px) {
-    .item-card {
-        flex: 0 0 calc((100% - clamp(1rem, 2.5vw, 1.8rem)) / 2);
-    }
-}
-
-@media (max-width: 560px) {
-    .item-card {
-        flex: 0 0 100%;
-    }
 }
 
 .item-card img {
@@ -554,8 +540,14 @@ main:has(.report-card) {
     object-fit: cover;                /* or contain — your choice */
     border-radius: 0.8rem;
     transition: transform 0.25s ease;    
+    border: 2px solid white;
+
 }
 
+.item-card img:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+}
 
 
 /* Search bar also benefits from fluid sizing */
@@ -567,69 +559,43 @@ main:has(.report-card) {
 }
 
 
-/* Optional: better mobile stacking */
-@media (max-width: 640px) {
-    .layout {
-        flex-direction: column;
-        gap: 1.8rem;
-        justify-content: center;
-        align-items: center;
-    }
-    
-    .corner-text {
-        left:13vw;
-    }
-
-    .search-bar input {
-        width: 60vw;
-    }
-    .container {
-        width: 100%;
-    }
-
-    
-
-    .filters {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 0.8rem;
-    }
-    
-    .filters select,
-    .reset-btn {
-        min-width: 130px;
-        flex: 1 1 45%;
-    }
-}
-
 /* Modal layout with form */
 .modal {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.85);
     z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    display: none;  /* ← this line is OK but we control it via JS */
+
+    display: none;
+    justify-content: center;
+    align-items: flex-start;   /* ⬅️ NOT center */
+
+    overflow-y: auto;          /* ⬅️ allows scrolling */
+    padding: env(safe-area-inset-top) 1rem
+             env(safe-area-inset-bottom) 1rem; /* iOS safe */
     justify-content: center;
     align-items: center;
 }
 
+
 .modal-content {
     background: #165CB9;
     border-radius: 1.25rem;
-    width: 90%;
+    width: 100%;
     max-width: 800px;
+    color: white;
+
     padding: 2rem;
+    margin: 2rem auto;
+
     position: relative;
     box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-    color: white;
 
     transform: scale(0.8);
     opacity: 0;
     transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+
 
 .modal.active .modal-content {
     transform: scale(1);
@@ -660,20 +626,25 @@ main:has(.report-card) {
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
+            justify-content: center;
+        align-items: center;
+
 }
 
 .modal-image {
-    flex: 1;
-    min-width: 250px;
     max-width: 400px;
+    margin: 0;
 }
 
 .modal-image img {
     width: 100%;
+    max-height: 60vh;        /* ⬅️ key fix */
+    object-fit: contain;
     border-radius: 1rem;
     box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-    padding: 2rem;
+    padding: 1rem;
 }
+
 
 .inquiry-form {
     flex: 1;
@@ -712,6 +683,7 @@ main:has(.report-card) {
     transform: translateY(-2px);
 }
 
+
 .success-msg {
     margin-top: 1.5rem;
     padding: 1rem;
@@ -720,4 +692,440 @@ main:has(.report-card) {
     text-align: center;
     font-size: 1.2rem;
     font-weight: 600;
+}
+
+/* Container for chips – vertical stacking, full width */
+.active-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin: 0.8rem 0 0.8rem;
+    width: 100%;                     /* takes full available width */
+}
+
+/* Individual chip – full width, × on right, text centered in left part */
+.filter-chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;   /* pushes × to far right */
+    background: #004aad;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+    width: 100%;                      /* grows to fill horizontal space */
+    box-sizing: border-box;
+}
+
+.filter-chip:hover {
+    background: #003479;
+}
+
+/* Left part: text centered */
+.filter-chip-text {
+    flex: 1;
+    text-align: center;
+}
+
+/* Right × button */
+.filter-chip .remove-filter {
+    font-size: 1.4rem;
+    cursor: pointer;
+    color: white;
+    line-height: 1;
+    padding-left: 0.8rem;
+    margin-left: auto;                /* ensures × stays on far right */
+}
+
+/* Make select look consistent with your style */
+.type-select {
+    padding: 0.9rem 1rem;
+    border-radius: 0.7rem;
+    border: none;
+    font-weight: 600;
+    background: white;
+    color: #0e3e82;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23333' stroke-width='2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.8em;
+    padding-right: 2.5rem;
+    cursor: pointer;
+}
+
+.no-results {
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 2rem;
+    grid-column: 1 / -1;
+}
+
+/* Layout */
+.admin-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0rem;
+    height: auto;
+    width: 70%;
+    justify-content: center;
+}
+
+main:has(.admin-container) p {
+    margin: 1rem;
+    color: white;
+}
+
+.admin-list {
+    flex: 0 0 200px;
+    max-height: 100%;
+    overflow-y: auto;
+    background: #165cb9;
+    padding: 1rem;
+    border-radius: 1rem;
+    color: white;
+    overflow-y: auto;
+}
+
+.admin-list-item {
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.4rem;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    background: #0e3e82;
+    transition: 0.2s;
+    text-align: center;
+}
+
+.admin-list-item:hover,
+.admin-list-item.active {
+    background: #004aad;
+}
+
+.admin-list-empty {
+    text-align: center;
+    padding: 1rem;
+    font-style: italic;
+    color: #ccc;
+}
+
+.admin-detail {
+    flex: 1;
+    background: #d0eaff;
+    border-radius: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.admin-detail img {
+    max-width: 250px;
+    max-height: 250px;
+    border-radius: 0.8rem;
+    border: 2px solid #0e3e82;
+    align-self: center;
+}
+
+.admin-detail textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border-radius: 0.6rem;
+    border: 1px solid #0e3e82;
+    resize: vertical;
+}
+
+.admin-detail .actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 0.5rem;
+}
+
+#actionForm button {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 0.6rem;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+button.approve { background-color: #1b5e20; color: white; display: none;}
+button.reject { background-color: #c62828; color: white; display: none;}
+button.save { background-color: #004aad; color: white; display: none;}
+button.remove { background-color: #c62828; color: white; display: none;}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.top-bar select {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+}
+
+.description-text {
+    margin-bottom: 1rem;
+}
+
+main:has(.top-bar) {
+    padding: 1rem;
+}
+
+.refresh-button {
+    background-color: white;
+    padding: 0.5rem 1rem;
+    border-radius:0.8rem;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.refresh-button:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+#modeSelect {
+    font-family: inherit;
+    border-radius:0.8rem;
+}
+
+.top-bar div {
+    display: flex;
+    flex: row;
+    gap: 1rem;
+}
+
+.detail-value {
+    display: inline-block;
+    background: #e6f0ff;
+    padding: 0.4rem 0.9rem;
+    border-radius: 0.5rem;
+    color: #0e3e82;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.admin-detail select {
+    border-radius: 0.8rem;
+    padding: 0.3rem;
+    font-family: inherit;
+}
+
+select:disabled,
+textarea:read-only {
+    background-color: #f0f0f0;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+select:not(:disabled),
+textarea:not(:read-only) {
+    background-color: white;
+    color: #0e3e82;
+    cursor: pointer;
+}
+
+#detailReportId {
+    margin: 0 0 1rem 0;
+    padding: 0.5rem 1rem;
+    background: #004aad;
+    color: white;
+    border-radius: 0.6rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+@media (min-height:607px) {
+    .content-box {
+        padding: 3rem 0 3rem;
+        width: 45vw;
+    }
+
+}
+
+@media (max-width: 48rem) {
+    .button-container {
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 540px) {
+    .button-container {
+        gap: 1.5rem;
+        flex-direction: column;
+        margin: 0rem 0 1rem;
+    }
+    .content-box {
+        margin-top: 5vh;
+        margin-bottom: 2vh
+    }
+}
+
+@media (max-width: 480px) {
+    .button-container {
+        gap: 1.5rem;
+        flex-direction: column;
+        margin: 0rem 0 1rem;
+    }
+}
+
+@media (max-width: 48rem) {
+    .corner-quarter {
+        width: clamp(120px, 25vw, 180px);
+        height: clamp(120px, 25vw, 180px);
+    }
+    
+    .corner-text {
+        font-size: clamp(1rem, 4vw, 1.3rem);
+        bottom: 25%;
+    }
+    .content-box h1 {
+        padding: 0 1rem 0rem;
+    }
+}
+
+/* Keep the media queries for responsive columns */
+@media (max-width: 950px) {
+    .item-card {
+        flex: 0 0 calc((100% - clamp(1rem, 2.5vw, 1.8rem)) / 2);
+    }
+    .container {
+        width: 100%;
+    }
+    .content-box {
+        width: 75vw;
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 560px) {
+    .item-card {
+        flex: 0 0 100%;
+    }
+}
+
+/* Optional: better mobile stacking */
+@media (max-width: 640px) {
+    .layout {
+        flex-direction: column;
+        gap: 1.8rem;
+        justify-content: center;
+        align-items: center;
+        gap: 0;
+    }
+
+    body::before {
+        background-image: none;
+    }
+
+    body {
+        background-color: #0e3e82;
+    }
+
+    .action-button {
+        width: 7rem;
+        height: 7rem;
+    }
+
+    .corner-text {
+        left:13vw;
+    }
+
+    .action-button {
+        font-size: 0.8rem;
+    }
+
+    .active-filters {
+        display: none;
+        flex-direction: column;
+        gap: 0.8rem;
+        margin: 0.8rem 0 0;
+        width: 100%;                     /* takes full available width */
+    }
+
+    .box-image img {
+        height: 10rem;
+    }
+
+    .results-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .item-card img {
+        width: 6rem;
+        height: 6rem;
+    }
+
+    .search-bar input {
+        width: 60vw;
+    }
+
+    .filters {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.8rem;
+    }
+    
+    .filters select,
+    .reset-btn {
+        min-width: 130px;
+        flex: 1 1 45%;
+    }
+}
+
+@media (max-width: 640px) {
+    .modal-layout {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .modal-content {
+        padding: 1.5rem;
+    }
+
+    .modal h2 {
+        font-size: 1.6rem;
+    }
+
+    .modal-layout {
+        justify-content: center;
+        align-items: center;
+    }
+    .admin-container {
+        flex-direction: column;
+        width: 90%;
+    }
+    .admin-list {
+        flex-direction: row;
+    }
+    .admin-list {
+        flex-direction: row;
+    }
+}
+
+@media (width: 948px) and (height: 810px) {
+    .item-card img { 
+        height: 13vw;
+        width: 13vw;
+    }
+}
+
+@media (width: 810px) and (height: 948px) {
+    .item-card img { 
+        height: 13vw;
+        width: 13vw;
+    }
 }

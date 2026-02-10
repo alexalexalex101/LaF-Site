@@ -1,4 +1,6 @@
 <?php
+date_default_timezone_set('America/New_York');
+
 session_start();
 
 // Show message only once - then remove it
@@ -13,7 +15,7 @@ unset($_SESSION['form_status']);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCTVS Lost and Found - Report a Lost Item</title>
+    <title>PCTVS Lost and Found - Report a Found Item</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -29,7 +31,7 @@ unset($_SESSION['form_status']);
         <main>
             <!-- New wrapper class just for this page's form card -->
             <div class="report-card">
-                <h1>Report a Lost Item</h1>
+                <h1>Report a Found Item</h1>
 <?php if ($message): ?>
     <div style="
         padding: 12px 20px;
@@ -48,6 +50,20 @@ unset($_SESSION['form_status']);
                     method="POST"
                     action="submit_report.php"
                     enctype="multipart/form-data">
+
+                    <div class="form-field">
+                        <label for="location">Lost and Found Location</label>
+                        <p>Where is this item being dropped off at?</p>
+                        <select id="location" name="location" required>
+                            <option value="" disabled selected>Select Location</option>
+                            <option value="Main Lost & Found">Main Building Lost & Found</option>
+                            <option value="Gym Lost & Found">Main Gym Locker Room Lost & Found</option>
+                            <option value="AC Lost & Found">Athletic Center Lost & Found</option>
+                            <option value="Rocco Lost & Found">Rocco Building Lost & Found</option>
+                            <option value="Stem Lost & Found">Stem Building Lost & Found</option>
+                        </select>
+                    </div>
+
                     <div class="form-field">
                         <label for="item-type">Item Type</label>
                         <select id="item-type" name="item_type" required>
@@ -70,6 +86,13 @@ unset($_SESSION['form_status']);
 
                     </div>
 
+                    <div class="form-field">
+                        <label for="date-found">Date Found</label>
+                        <input type="date" id="date-found" name="date_found" 
+                            value="<?php echo date('Y-m-d'); ?>" required>
+                    </div>
+
+                    <input type="hidden" name="user_timezone" id="userTimezone">
 
                     <div class="form-field upload-field">
                         <label>Upload Thumbnail</label>
@@ -82,8 +105,7 @@ unset($_SESSION['form_status']);
                             <span class="preview-label">Preview:</span>
                             <img id="thumbnailPreviewImg" alt="Thumbnail preview">
                         </div>                        
-                    </div>
-
+                    </div>                    
 
                     <button type="submit" class="submit-button">Submit Report</button>
                 </form>

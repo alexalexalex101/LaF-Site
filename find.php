@@ -20,21 +20,23 @@
             <div class="search-card">
                 <div class="layout">
 
-                    <!-- Left filters -->
                     <aside class="filters">
-                        <button class="reset-btn">Reset Filters</button>
+                        <button class="reset-btn" id="resetFilters">Reset Filters</button>
 
-                        <select>
-                            <option>Category</option>
+                        <!-- Filter by Type -->
+                        <select id="typeFilter" class="type-select">
+                            <option value="" disabled selected>Filter by Type</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="clothing">Clothing / Accessories</option>
+                            <option value="keys">Keys / Wallet / ID</option>
+                            <option value="bag">Bag / Backpack</option>
+                            <option value="jewelry">Jewelry / Watch</option>
+                            <option value="documents">Documents / Books</option>
+                            <option value="other">Other</option>
                         </select>
 
-                        <select>
-                            <option>Color</option>
-                        </select>
-
-                        <select>
-                            <option>Location</option>
-                        </select>
+                        <!-- Container for active filter chips -->
+                        <div id="activeFilters" class="active-filters"></div>
                     </aside>
 
                     <!-- Right content -->
@@ -42,7 +44,7 @@
 
                         <!-- Search -->
                         <div class="search-bar">
-                            <input type="text" placeholder="Search through reports...">
+                            <input type="text" id="searchInput" placeholder="Search through reports...">
                             <button class="search-btn">
                                 <svg viewBox="0 0 24 24" class="search-icon">
                                     <circle cx="11" cy="11" r="7"></circle>
@@ -54,31 +56,32 @@
                         <!-- Cards -->
                         <div class="results-grid">
                             <?php
+                            date_default_timezone_set('America/New_York');
                             $conn = new mysqli("localhost", "root", "", "lost_and_found");
                             if (!$conn->connect_error) {
-                                $result = $conn->query("SELECT id, item_type, description, photo FROM lost_items ORDER BY id DESC");
+                                $result = $conn->query("SELECT id, item_type, description, photo, location, date_found, created_at FROM lost_items WHERE status = 'approved' ORDER BY id DESC");
+                                while ($row = $result->fetch_assoc()) {
+                                    $photoPath = $row['photo'] ? "uploads/" . htmlspecialchars($row['photo']) : "images/boxlogo.png";
+                                    $itemType  = htmlspecialchars($row['item_type']);
+                                    $desc      = htmlspecialchars($row['description']);
+                                    $location  = htmlspecialchars($row['location']);
+                                    $dateFound = htmlspecialchars($row['date_found']);
+                                    $createdAt = htmlspecialchars($row['created_at']);
 
-                                if ($result->num_rows > 0) {
-                                    while ($row = $result->fetch_assoc()) {
-                                        $photoPath = $row['photo'] ? "uploads/" . htmlspecialchars($row['photo']) : "images/boxlogo.png";
-                                        $itemType  = htmlspecialchars($row['item_type']);
-                                        $desc      = htmlspecialchars($row['description']);
-
-                                        echo '
-                                        <div class="item-card">
-                                            <img src="' . $photoPath . '" 
-                                                alt="' . $itemType . '" 
-                                                class="clickable-image"
-                                                data-id="' . $row['id'] . '"
-                                                data-type="' . $itemType . '"
-                                                data-desc="' . $desc . '"
-                                                data-fullphoto="' . $photoPath . '">
-                                        </div>';
-                                    }
-                                } else {
-                                    echo '<p style="color:white; text-align:center; grid-column: 1 / -1;">No items found.</p>';
+                                    echo '
+                                    <div class="item-card">
+                                        <img src="' . $photoPath . '" 
+                                            alt="' . $itemType . '" 
+                                            class="clickable-image"
+                                            data-id="' . $row['id'] . '"
+                                            data-type="' . $itemType . '"
+                                            data-desc="' . $desc . '"
+                                            data-location="' . $location . '"
+                                            data-date-found="' . $dateFound . '"
+                                            data-created-at="' . $createdAt . '"
+                                            data-fullphoto="' . $photoPath . '">
+                                    </div>';
                                 }
-                                $conn->close();
                             }
                             ?>
                         </div>
@@ -99,7 +102,7 @@
 
                             <!-- Right: Inquiry Form -->
                             <div class="inquiry-form">
-                                <p>Is this your item?<br>Submit an inquiry form!</p>
+                                <p>Is this your item?<br>Submit an inquiry form for more information!</p>
 
                                 <label for="inquiryEmail">Enter Email Address</label>
                                 <input type="email" id="inquiryEmail" placeholder="your@email.com" required>

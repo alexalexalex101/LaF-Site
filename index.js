@@ -5,3 +5,4 @@ document.getElementById("reportbutton").onclick = function () {
 document.getElementById("findbutton").onclick = function () {
         location.href = "find.php";
     };    
+
