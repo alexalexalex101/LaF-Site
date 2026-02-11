@@ -4,16 +4,18 @@ from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
 import base64
 import os
+from dotenv import load_dotenv
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)  # Allow frontend to call (dev only; restrict in prod)
 
+
 # SendGrid API Key (generate at https://sendgrid.com)
-SENDGRID_API_KEY = ''  # REPLACE WITH YOUR REAL KEY
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
 
 # Verified sender email (must be verified in SendGrid dashboard)
-EMAIL_SENDER = ""
+EMAIL_SENDER = os.getenv('SENDGRID_SENDER')
 
 @app.route('/send-inquiry', methods=['POST'])
 def send_inquiry():
