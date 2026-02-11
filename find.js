@@ -5,33 +5,26 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('inquiryEmail');
     const successMsg = document.getElementById('inquirySuccess');
 
-document.querySelectorAll('.item-card img').forEach(img => {
-    img.addEventListener('click', function() {
-        const modalImg = document.getElementById('modalImage');
+    // Open with transition
+    document.querySelectorAll('.item-card img').forEach(img => {
+        img.addEventListener('click', function() {
+            document.getElementById('modalImage').src = this.src;
 
-        // Copy src and ALL data attributes
-        modalImg.src = this.src;
-        modalImg.dataset.location = this.dataset.location;
-        modalImg.dataset.dateFound = this.dataset.dateFound;
-        modalImg.dataset.createdAt = this.dataset.createdAt;
-        modalImg.dataset.desc = this.dataset.desc;
-        modalImg.dataset.fullphoto = this.dataset.fullphoto;
+            // Reset form
+            successMsg.style.display = 'none';
+            submitBtn.style.display = 'block';
+            emailInput.disabled = false;
+            emailInput.value = '';
 
-        // Reset form
-        successMsg.style.display = 'none';
-        submitBtn.style.display = 'block';
-        emailInput.disabled = false;
-        emailInput.value = '';
+            // Trigger animation
+            modal.style.display = 'flex';           // make visible first
+            setTimeout(() => {                      // tiny delay to trigger transition
+                modal.classList.add('active');
+            }, 10);
 
-        // Trigger animation
-        modal.style.display = 'flex';
-        setTimeout(() => {
-            modal.classList.add('active');
-        }, 10);
-
-        document.body.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+        });
     });
-});
 
     // Close with fade-out
     const closeModal = () => {
@@ -199,29 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!hasAnyFilterOrSearch && noItemsAtAll) {
                 noResultsMessage.textContent = "No items are currently posted.";
             } else {
-                noResultsMessage.textContent = "No items match your search or filters.";
+                alert('Please enter your email address');
             }
-            noResultsMessage.style.display = 'block';
-        } else {
-            noResultsMessage.style.display = 'none';
-        }
+        };
     }
-
-    // Trigger filters on every keystroke in search
-    searchInput.addEventListener('input', applyFilters);
-
-    // Reset button
-    resetBtn.addEventListener('click', () => {
-        activeTypes.clear();
-        activeFiltersContainer.innerHTML = '';
-        Array.from(typeFilter.options).forEach(opt => {
-            if (opt.value !== '') opt.disabled = false;
-        });
-        searchInput.value = '';
-        applyFilters();
-        typeFilter.value = '';
-    });
-
-    // Initial load - very important!
-    applyFilters();
 });

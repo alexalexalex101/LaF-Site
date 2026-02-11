@@ -1,0 +1,89 @@
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail, Attachment, FileContent, FileName, FileType, Disposition
+import base64
+import os
+from datetime import datetime
+
+app = Flask(__name__)
+CORS(app)  # Allow frontend to call (dev only; restrict in prod)
+
+# SendGrid API Key (generate at https://sendgrid.com)
+SENDGRID_API_KEY = os.environ.get("SENDGRID_API_KEY")  # REPLACE WITH YOUR REAL KEY
+
+# Verified sender email (must be verified in SendGrid dashboard)
+EMAIL_SENDER = "pctvslostnfound@gmail.com"
+
+@app.route('/send-inquiry', methods=['POST'])
+def send_inquiry():
+    try:
+        data = request.get_json()
+        receiver = data.get('email_receiver')
+        item_location = data.get('item_location', 'Not specified')
+        date_found_str = data.get('date_found', 'Not specified')
+        created_at_str = data.get('created_at', 'Not specified')
+        description = data.get('description', 'No description')
+        filename = data.get('filename')  # server-side path to attachment
+
+        if not receiver:
+            return jsonify({"error": "Missing email receiver"}), 400
+
+        # Format dates (safe handling)
+        date_found_formatted = 'Not specified'
+        if date_found_str != 'Not specified':
+            try:
+                date_found_formatted = datetime.strptime(date_found_str, '%Y-%m-%d').strftime('%m/%d/%Y')
+            except ValueError:
+                date_found_formatted = date_found_str
+
+        created_at_formatted = 'Not specified'
+        if created_at_str != 'Not specified':
+            try:
+                dt = datetime.strptime(created_at_str, '%Y-%m-%d %H:%M:%S')
+                created_at_formatted = dt.strftime('%m/%d/%Y %I:%M %p')
+            except ValueError:
+                created_at_formatted = created_at_str
+
+        # Build thank you body
+        body = f"""Thank you for submitting an inquiry!
+
+Item Details:
+- Location: {item_location}
+- Date Found: {date_found_formatted}
+- Report Created At: {created_at_formatted}
+- Description: {description or 'No description provided'}
+"""
+
+        # Create SendGrid mail object
+        message = Mail(
+            from_email=EMAIL_SENDER,
+            to_emails=receiver,
+            subject="Thank you for your Lost Item Inquiry",
+            plain_text_content=body
+        )
+
+        # Attach file if provided and exists
+        if filename and os.path.exists(filename):
+            with open(filename, 'rb') as f:
+                data = f.read()
+                encoded_file = base64.b64encode(data).decode()
+                attachment = Attachment(
+                    FileContent(encoded_file),
+                    FileName(os.path.basename(filename)),
+                    FileType('application/octet-stream'),
+                    Disposition('attachment')
+                )
+                message.attachment = attachment
+
+        # Send via SendGrid
+        sg = SendGridAPIClient(SENDGRID_API_KEY)
+        response = sg.send(message)
+
+        return jsonify({"message": "Inquiry confirmation sent!"}), 200
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0')
