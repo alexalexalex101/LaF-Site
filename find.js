@@ -68,7 +68,15 @@ document.querySelectorAll('.item-card img').forEach(img => {
                 filename: modalImage.dataset.fullphoto  // relative path like "uploads/abc.jpg"
             };
 
-            fetch('http://192.168.1.202:5000/send-inquiry', {  // ← YOUR COMPUTER'S IP HERE
+            const API_URL = `http://${window.location.hostname}:5000`;
+
+            fetch(`${API_URL}/send-inquiry`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(bodyData)
+            })
+
+            fetch(`${API_URL}/send-inquiry`, {  // ← YOUR COMPUTER'S IP HERE
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bodyData)

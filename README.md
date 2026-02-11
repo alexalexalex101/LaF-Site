@@ -1,9 +1,12 @@
-# a local MySQL database and Python will be required to run.
+# A local MySQL database and Python will be required to run.
+
+## IN ORDER TO HAVE MOBILE SUPPORT, FILE FOLDER MUST BE IN XAMPP HTDOCS
 
 ## To run, open XAMPP and run Apache and MySQL.
+
 ## Run emailapi.py by running python emailapi.py in the terminal. 
 
-### Change IP address in emailapi.py in order to run correctly.
+# Create the table below in a database called "lost_and_found"
 
 CREATE TABLE `lost_items` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,

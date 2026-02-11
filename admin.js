@@ -50,10 +50,18 @@ function handleAction(action) {
         body: formData
     })
     .then(response => {
-        if (!response.ok) throw new Error('Server error');
-        return response.text();
+        // First check if the HTTP request was successful (200-299)
+        if (!response.ok) {
+            throw new Error(`Server responded with ${response.status}`);
+        }
+        // If your PHP starts returning JSON, you can change to .json()
+        return response.text();   // or response.json() if you make PHP return JSON
     })
-    .then(() => {
+    .then(data => {
+        // ────────────────────────────────────────────────
+        //   Only run UI updates if the server accepted the request
+        // ────────────────────────────────────────────────
+
         const currentItem = document.querySelector(`.admin-list-item[data-id="${id}"]`);
 
         let message = '';
@@ -78,6 +86,7 @@ function handleAction(action) {
             case 'save':
                 message = 'Changes saved!';
                 if (currentItem) {
+                    // Only update data attributes if server said OK
                     currentItem.dataset.desc = detailDesc.value.trim();
                     currentItem.dataset.location = detailLocationSelect.value;
                     currentItem.dataset.type = detailTypeSelect.value;
@@ -88,12 +97,12 @@ function handleAction(action) {
         alert(message);
         updateEmptyMessage();
         
-        // Automatically go to next item (this is the key line)
-        setTimeout(loadNextItem, 100);  // Small delay to let DOM update
+        // Auto-load next item only on success
+        setTimeout(loadNextItem, 100);
     })
     .catch(err => {
         console.error('Action failed:', err);
-        alert('Error: ' + err.message);
+        alert('Failed to process action: ' + err.message);
     });
 }
 
