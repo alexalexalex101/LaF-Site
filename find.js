@@ -58,6 +58,13 @@ document.querySelectorAll('.item-card img').forEach(img => {
                 alert('Please enter your email');
                 return;
             }
+            const location = modalImage.dataset.location || 'Not specified';
+
+            // Create PDF filename matching the location
+            let pdfFilename = null;
+            if (location !== 'Not specified') {
+                pdfFilename = `maps/${location}.pdf`;   // ← changed to maps/
+            }            
 
             const bodyData = {
                 email_receiver: receiver,
@@ -65,16 +72,11 @@ document.querySelectorAll('.item-card img').forEach(img => {
                 date_found: modalImage.dataset.dateFound || 'Not specified',
                 created_at: modalImage.dataset.createdAt || 'Not specified',
                 description: modalImage.dataset.desc || 'No description',
-                filename: modalImage.dataset.fullphoto  // relative path like "uploads/abc.jpg"
+                filename: modalImage.dataset.fullphoto,  // relative path like "uploads/abc.jpg"
+                pdf_filename: pdfFilename
             };
 
             const API_URL = `http://${window.location.hostname}:5000`;
-
-            fetch(`${API_URL}/send-inquiry`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(bodyData)
-            })
 
             fetch(`${API_URL}/send-inquiry`, {  // ← YOUR COMPUTER'S IP HERE
                 method: 'POST',

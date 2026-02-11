@@ -27,6 +27,7 @@ def send_inquiry():
         created_at_str = data.get('created_at', 'Not specified')
         description = data.get('description', 'No description')
         filename = data.get('filename')  # server-side path to attachment
+        pdf_filename = data.get('pdf_filename')        # e.g. "maps/Main Building Lost & Found.pdf"
 
         if not receiver:
             return jsonify({"error": "Missing email receiver"}), 400
@@ -57,6 +58,8 @@ Item Details:
 - Item Description: {description or 'No description provided'}
 
 If you think this is your item, come to the following location to retrieve it: {item_location}
+
+{'A location map/guide has been attached for your reference.' if pdf_filename else ''}
 """
 
         # Create SendGrid mail object
@@ -80,6 +83,24 @@ If you think this is your item, come to the following location to retrieve it: {
                 )
                 message.attachment = attachment
 
+        # Attach PDF if provided and exists
+        if pdf_filename and os.path.exists(pdf_filename):
+            with open(pdf_filename, 'rb') as f:
+                encoded_pdf = base64.b64encode(f.read()).decode()
+                attachment_pdf = Attachment(
+                    FileContent(encoded_pdf),
+                    FileName(os.path.basename(pdf_filename)),
+                    FileType('application/pdf'),
+                    Disposition('attachment')
+                )
+                # Append to existing attachments (image + pdf)
+                if hasattr(message, 'attachment') and message.attachment:
+                    if not isinstance(message.attachment, list):
+                        message.attachment = [message.attachment]
+                    message.attachment.append(attachment_pdf)
+                else:
+                    message.attachment = attachment_pdf
+                    
         # Send via SendGrid
         sg = SendGridAPIClient(SENDGRID_API_KEY)
         response = sg.send(message)

@@ -61,6 +61,7 @@ unset($_SESSION['form_status']);
                             <option value="Athletic Center Lost & Found">Athletic Center Lost & Found</option>
                             <option value="Rocco Building Lost & Found">Rocco Building Lost & Found</option>
                             <option value="Stem Building Lost & Found">Stem Building Lost & Found</option>
+                            <option value="Stem Gym Locker Room Lost & Found">Stem Gym Locker Room Lost & Found</option>
                         </select>
                     </div>
 
