@@ -56,11 +56,12 @@ unset($_SESSION['form_status']);
                         <p>Where is this item being dropped off at?</p>
                         <select id="location" name="location" required>
                             <option value="" disabled selected>Select Location</option>
-                            <option value="Main Lost & Found">Main Building Lost & Found</option>
-                            <option value="Gym Lost & Found">Main Gym Locker Room Lost & Found</option>
-                            <option value="AC Lost & Found">Athletic Center Lost & Found</option>
-                            <option value="Rocco Lost & Found">Rocco Building Lost & Found</option>
-                            <option value="Stem Lost & Found">Stem Building Lost & Found</option>
+                            <option value="Main Building Lost & Found">Main Building Lost & Found</option>
+                            <option value="Main Gym Locker Room Lost & Found">Main Gym Locker Room Lost & Found</option>
+                            <option value="Athletic Center Lost & Found">Athletic Center Lost & Found</option>
+                            <option value="Rocco Building Lost & Found">Rocco Building Lost & Found</option>
+                            <option value="Stem Building Lost & Found">Stem Building Lost & Found</option>
+                            <option value="Stem Gym Locker Room Lost & Found">Stem Gym Locker Room Lost & Found</option>
                         </select>
                     </div>
 

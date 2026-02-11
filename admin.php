@@ -24,13 +24,30 @@ if (isset($_POST['action'], $_POST['id'])) {
        $stmt->bind_param("i", $id);
        $stmt->execute();
        $stmt->close();
-   } elseif ($action === 'save') {
-       $desc = $_POST['description'] ?? '';
-       $stmt = $conn->prepare("UPDATE lost_items SET description=? WHERE id=?");
-       $stmt->bind_param("si", $desc, $id);
-       $stmt->execute();
-       $stmt->close();
-   }
+    } elseif ($action === 'save') {
+        $description = $_POST['description'] ?? '';
+        $location    = $_POST['location']    ?? 'Not specified';
+        $item_type   = $_POST['item_type']   ?? 'Unknown';
+
+        $stmt = $conn->prepare("
+            UPDATE lost_items 
+            SET description = ?, 
+                location    = ?, 
+                item_type   = ?
+            WHERE id = ?
+        ");
+
+        $stmt->bind_param("sssi", $description, $location, $item_type, $id);
+
+        if ($stmt->execute()) {
+            // Optional: log success
+        } else {
+            // You can log error here if you want
+            error_log("Save failed: " . $stmt->error);
+        }
+
+        $stmt->close();
+    }
 }
 
 
@@ -114,20 +131,24 @@ $existing = $conn->query("SELECT * FROM lost_items WHERE status='approved' ORDER
     <div class="admin-detail" id="itemDetail">
         
         <h2 id="detailReportId">Report #</h2>
-
+<div id="flexcolumn">
+    <div>
         <img id="detailPhoto" src="images/boxlogo.png" alt="Item Photo">
-
+    </div>
         <!-- Location -->
+
+    <div id="flexcolumndiv">
         <div>
             <strong>Location:</strong>
-            <select id="detailLocationSelect">
-                <option value="">Not specified</option>
-                <option value="Main Lost & Found">Main Building Lost & Found</option>
-                <option value="Gym Lost & Found">Main Gym Locker Room Lost & Found</option>
-                <option value="AC Lost & Found">Athletic Center Lost & Found</option>
-                <option value="Rocco Lost & Found">Rocco Building Lost & Found</option>
-                <option value="Stem Lost & Found">Stem Building Lost & Found</option>
-            </select>
+                <select id="detailLocationSelect">
+                    <option value="">Not specified</option>
+                    <option value="Main Building Lost & Found">Main Building Lost & Found</option>
+                    <option value="Main Gym Locker Room Lost & Found">Main Gym Locker Room Lost & Found</option>
+                    <option value="Athletic Center Lost & Found">Athletic Center Lost & Found</option>
+                    <option value="Rocco Building Lost & Found">Rocco Building Lost & Found</option>
+                    <option value="Stem Building Lost & Found">Stem Building Lost & Found</option>
+                    <option value="Stem Gym Locker Room Lost & Found">Stem Gym Locker Room Lost & Found</option>
+                </select>
         </div>
 
         <!-- Item Type -->
@@ -156,7 +177,8 @@ $existing = $conn->query("SELECT * FROM lost_items WHERE status='approved' ORDER
             <strong>Created At:</strong>
             <span id="detailCreatedAt">Not selected</span>
         </div>
-
+</div>
+</div>
         <!-- Description -->
         <strong>Description:</strong>  
         <div>
