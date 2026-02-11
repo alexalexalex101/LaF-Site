@@ -4,7 +4,7 @@
 
 ## To run, open XAMPP and run Apache and MySQL.
 
-## Run emailapi.py by running python emailapi.py in the terminal. 
+## Run emailapi.py by running "python emailapi.py" in the terminal. 
 
 # Create the table below in a database called "lost_and_found"
 
