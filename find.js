@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.item-card img').forEach(img => {
         img.addEventListener('click', function() {
             document.getElementById('modalImage').src = this.src;
-
+            const modalImage = document.getElementById('modalImage');
+            modalImage.src = this.src;
             // Reset form
             successMsg.style.display = 'none';
             submitBtn.style.display = 'block';
