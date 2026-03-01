@@ -5,10 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const emailInput = document.getElementById('inquiryEmail');
     const successMsg = document.getElementById('inquirySuccess');
 
-    // Open with transition
+    // Open modal when clicking an item image
     document.querySelectorAll('.item-card img').forEach(img => {
         img.addEventListener('click', function() {
-            document.getElementById('modalImage').src = this.src;
+            const modalImage = document.getElementById('modalImage');
+
+            // Set the image source
+            modalImage.src = this.src;
+
+            // IMPORTANT: Copy all data attributes from the clicked image to modalImage
+            modalImage.dataset.location   = this.dataset.location   || 'Not specified';
+            modalImage.dataset.dateFound  = this.dataset.dateFound  || 'Not specified';
+            modalImage.dataset.createdAt  = this.dataset.createdAt  || 'Not specified';
+            modalImage.dataset.desc       = this.dataset.desc       || 'No description';
+            modalImage.dataset.fullphoto  = this.dataset.fullphoto  || '';
 
             // Reset form
             successMsg.style.display = 'none';
@@ -16,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
             emailInput.disabled = false;
             emailInput.value = '';
 
-            // Trigger animation
-            modal.style.display = 'flex';           // make visible first
-            setTimeout(() => {                      // tiny delay to trigger transition
+            // Show modal with transition
+            modal.style.display = 'flex';
+            setTimeout(() => {
                 modal.classList.add('active');
             }, 10);
 
@@ -26,12 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Close with fade-out
+    // Close modal
     const closeModal = () => {
         modal.classList.remove('active');
         setTimeout(() => {
             modal.style.display = 'none';
-        }, 400); // match transition duration
+        }, 400); // match your CSS transition duration
         document.body.style.overflow = 'auto';
     };
 
@@ -43,65 +53,94 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Fake submit
+    // Submit inquiry
     if (submitBtn) {
         submitBtn.onclick = () => {
-            const receiver = document.getElementById('inquiryEmail').value;
+            const receiver = emailInput.value.trim();
             if (!receiver) {
                 alert('Please enter your email');
                 return;
             }
-            const location = modalImage.dataset.location || 'Not specified';
 
-            // Create PDF filename matching the location
+            const modalImage = document.getElementById('modalImage');
+
+            const location = modalImage.dataset.location || 'Not specified';
             let pdfFilename = null;
             if (location !== 'Not specified') {
-                pdfFilename = `maps/${location}.pdf`;   // ← changed to maps/
-            }            
+                pdfFilename = `maps/${location}.pdf`;  // must exist on server
+            }
 
             const bodyData = {
                 email_receiver: receiver,
-                item_location: modalImage.dataset.location || 'Not specified',
+                item_location: location,
                 date_found: modalImage.dataset.dateFound || 'Not specified',
                 created_at: modalImage.dataset.createdAt || 'Not specified',
                 description: modalImage.dataset.desc || 'No description',
-                filename: modalImage.dataset.fullphoto,  // relative path like "uploads/abc.jpg"
+                filename: modalImage.dataset.fullphoto || '',  // server-side image path
                 pdf_filename: pdfFilename
             };
 
+            // Debug: Check what is actually being sent
+            console.log('Sending to backend:', bodyData);
+
             const API_URL = `http://${window.location.hostname}:5000`;
 
-            fetch(`${API_URL}/send-inquiry`, {  // ← YOUR COMPUTER'S IP HERE
+            fetch(`${API_URL}/send-inquiry`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bodyData)
             })
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Server responded with ${res.status}`);
+                }
+                return res.json();
+            })
             .then(data => {
                 if (data.message) {
-                    // Show success in modal
-                    document.getElementById('inquirySuccess').style.display = 'block';
-                    document.getElementById('inquirySubmit').style.display = 'none';
+                    successMsg.style.display = 'block';
+                    submitBtn.style.display = 'none';
+                    emailInput.disabled = true; // prevent double submit
                 } else {
                     alert('Error: ' + (data.error || 'Unknown error'));
                 }
             })
-            .catch(err => alert('Failed to send inquiry: ' + err));
+            .catch(err => {
+                console.error('Fetch error:', err);
+                alert('Failed to send inquiry: ' + err.message);
+            });
         };
     }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Core elements
     const typeFilter = document.getElementById('typeFilter');
     const searchInput = document.getElementById('searchInput');
     const activeFiltersContainer = document.getElementById('activeFilters');
     const resetBtn = document.getElementById('resetFilters');
     const allCards = document.querySelectorAll('.item-card');
+    const resultsGrid = document.querySelector('.results-grid');
 
     let activeTypes = new Set();
 
-    // === TYPE FILTERING ===
+    // === Create no-results message ===
+    let noResultsMessage = document.querySelector('.no-results');
+
+    if (!noResultsMessage) {
+        noResultsMessage = document.createElement('p');
+        noResultsMessage.className = 'no-results';
+        noResultsMessage.style.color = 'white';
+        noResultsMessage.style.textAlign = 'center';
+        noResultsMessage.style.gridColumn = '1 / -1';
+        noResultsMessage.style.display = 'none';
+        noResultsMessage.style.padding = '30px';
+        resultsGrid.appendChild(noResultsMessage);
+    }
+
+    // === SEARCH ===
+    searchInput.addEventListener('input', applyFilters);
+
+    // === TYPE FILTER ===
     typeFilter.addEventListener('change', () => {
         const selectedValue = typeFilter.value;
 
@@ -115,6 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
         typeFilter.value = '';
         activeFiltersContainer.style.display = "flex";
     });
+
+    // === RESET FILTERS ===
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            activeTypes.clear();
+            activeFiltersContainer.innerHTML = '';
+            activeFiltersContainer.style.display = "none";
+
+            searchInput.value = '';
+
+            typeFilter.querySelectorAll('option').forEach(opt => {
+                opt.disabled = false;
+            });
+
+            applyFilters();
+        });
+    }
 
     function addFilterChip(type) {
         const chip = document.createElement('div');
@@ -131,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chip.remove();
             enableOption(type);
             applyFilters();
+
             if (activeFiltersContainer.children.length === 0) {
                 activeFiltersContainer.style.display = "none";
             }
@@ -149,51 +206,47 @@ document.addEventListener('DOMContentLoaded', () => {
         if (option) option.disabled = false;
     }
 
-    // === Create or get the no-results message element ===
-    let noResultsMessage = document.querySelector('.no-results');
-
-    if (!noResultsMessage) {
-        noResultsMessage = document.createElement('p');
-        noResultsMessage.className = 'no-results';
-        noResultsMessage.style.color = 'white';
-        noResultsMessage.style.textAlign = 'center';
-        noResultsMessage.style.gridColumn = '1 / -1';
-        document.querySelector('.results-grid').appendChild(noResultsMessage);
-    }
-
-    // === REAL-TIME SEARCH + TYPE FILTER COMBINED ===
     function applyFilters() {
         const filtersArray = Array.from(activeTypes);
         const searchTerm = searchInput.value.trim().toLowerCase();
 
-        let hasAnyFilterOrSearch = 
-            filtersArray.length > 0 || 
-            searchTerm.length > 0;
+        let visibleCount = 0;
 
         allCards.forEach(card => {
             const img = card.querySelector('img');
             const itemType = img.dataset.type?.toLowerCase() || '';
             const description = img.dataset.desc?.toLowerCase() || '';
 
-            const typeMatch = filtersArray.length === 0 || filtersArray.some(f => itemType === f);
-            const searchMatch = !searchTerm || 
-                               description.includes(searchTerm) || 
-                               itemType.includes(searchTerm);
+            const typeMatch =
+                filtersArray.length === 0 ||
+                filtersArray.includes(itemType);
 
-            card.style.display = (typeMatch && searchMatch) ? 'flex' : 'none';
+            const searchMatch =
+                !searchTerm ||
+                description.includes(searchTerm) ||
+                itemType.includes(searchTerm);
+
+            if (typeMatch && searchMatch) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
         });
 
-        // Count visible cards
-        const visibleCards = document.querySelectorAll('.item-card[style*="flex"]');
-        const noItemsAtAll = allCards.length === 0;
+        if (visibleCount === 0) {
+            noResultsMessage.style.display = 'block';
 
-        if (visibleCards.length === 0) {
-            // Decide which message to show
-            if (!hasAnyFilterOrSearch && noItemsAtAll) {
-                noResultsMessage.textContent = "No items are currently posted.";
+            if (allCards.length === 0) {
+                noResultsMessage.textContent = "No items have been posted yet.";
             } else {
-                alert('Please enter your email address');
+                noResultsMessage.textContent = "No items match your search.";
             }
-        };
+        } else {
+            noResultsMessage.style.display = 'none';
+        }
     }
+
+    // Run once on page load
+    applyFilters();
 });
