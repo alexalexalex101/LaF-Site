@@ -114,16 +114,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Core elements
     const typeFilter = document.getElementById('typeFilter');
     const searchInput = document.getElementById('searchInput');
     const activeFiltersContainer = document.getElementById('activeFilters');
     const resetBtn = document.getElementById('resetFilters');
     const allCards = document.querySelectorAll('.item-card');
+    const resultsGrid = document.querySelector('.results-grid');
 
     let activeTypes = new Set();
 
-    // === TYPE FILTERING ===
+    // === Create no-results message ===
+    let noResultsMessage = document.querySelector('.no-results');
+
+    if (!noResultsMessage) {
+        noResultsMessage = document.createElement('p');
+        noResultsMessage.className = 'no-results';
+        noResultsMessage.style.color = 'white';
+        noResultsMessage.style.textAlign = 'center';
+        noResultsMessage.style.gridColumn = '1 / -1';
+        noResultsMessage.style.display = 'none';
+        noResultsMessage.style.padding = '30px';
+        resultsGrid.appendChild(noResultsMessage);
+    }
+
+    // === SEARCH ===
+    searchInput.addEventListener('input', applyFilters);
+
+    // === TYPE FILTER ===
     typeFilter.addEventListener('change', () => {
         const selectedValue = typeFilter.value;
 
@@ -137,6 +154,23 @@ document.addEventListener('DOMContentLoaded', () => {
         typeFilter.value = '';
         activeFiltersContainer.style.display = "flex";
     });
+
+    // === RESET FILTERS ===
+    if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+            activeTypes.clear();
+            activeFiltersContainer.innerHTML = '';
+            activeFiltersContainer.style.display = "none";
+
+            searchInput.value = '';
+
+            typeFilter.querySelectorAll('option').forEach(opt => {
+                opt.disabled = false;
+            });
+
+            applyFilters();
+        });
+    }
 
     function addFilterChip(type) {
         const chip = document.createElement('div');
@@ -153,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
             chip.remove();
             enableOption(type);
             applyFilters();
+
             if (activeFiltersContainer.children.length === 0) {
                 activeFiltersContainer.style.display = "none";
             }
@@ -171,51 +206,47 @@ document.addEventListener('DOMContentLoaded', () => {
         if (option) option.disabled = false;
     }
 
-    // === Create or get the no-results message element ===
-    let noResultsMessage = document.querySelector('.no-results');
-
-    if (!noResultsMessage) {
-        noResultsMessage = document.createElement('p');
-        noResultsMessage.className = 'no-results';
-        noResultsMessage.style.color = 'white';
-        noResultsMessage.style.textAlign = 'center';
-        noResultsMessage.style.gridColumn = '1 / -1';
-        document.querySelector('.results-grid').appendChild(noResultsMessage);
-    }
-
-    // === REAL-TIME SEARCH + TYPE FILTER COMBINED ===
     function applyFilters() {
         const filtersArray = Array.from(activeTypes);
         const searchTerm = searchInput.value.trim().toLowerCase();
 
-        let hasAnyFilterOrSearch = 
-            filtersArray.length > 0 || 
-            searchTerm.length > 0;
+        let visibleCount = 0;
 
         allCards.forEach(card => {
             const img = card.querySelector('img');
             const itemType = img.dataset.type?.toLowerCase() || '';
             const description = img.dataset.desc?.toLowerCase() || '';
 
-            const typeMatch = filtersArray.length === 0 || filtersArray.some(f => itemType === f);
-            const searchMatch = !searchTerm || 
-                               description.includes(searchTerm) || 
-                               itemType.includes(searchTerm);
+            const typeMatch =
+                filtersArray.length === 0 ||
+                filtersArray.includes(itemType);
 
-            card.style.display = (typeMatch && searchMatch) ? 'flex' : 'none';
+            const searchMatch =
+                !searchTerm ||
+                description.includes(searchTerm) ||
+                itemType.includes(searchTerm);
+
+            if (typeMatch && searchMatch) {
+                card.style.display = 'flex';
+                visibleCount++;
+            } else {
+                card.style.display = 'none';
+            }
         });
 
-        // Count visible cards
-        const visibleCards = document.querySelectorAll('.item-card[style*="flex"]');
-        const noItemsAtAll = allCards.length === 0;
+        if (visibleCount === 0) {
+            noResultsMessage.style.display = 'block';
 
-        if (visibleCards.length === 0) {
-            // Decide which message to show
-            if (!hasAnyFilterOrSearch && noItemsAtAll) {
-                noResultsMessage.textContent = "No items are currently posted.";
+            if (allCards.length === 0) {
+                noResultsMessage.textContent = "No items have been posted yet.";
             } else {
-                alert('Please enter your email address');
+                noResultsMessage.textContent = "No items match your search.";
             }
-        };
+        } else {
+            noResultsMessage.style.display = 'none';
+        }
     }
+
+    // Run once on page load
+    applyFilters();
 });
