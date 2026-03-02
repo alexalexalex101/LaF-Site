@@ -7,18 +7,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Open modal when clicking an item image
     document.querySelectorAll('.item-card img').forEach(img => {
-        img.addEventListener('click', function() {
+        img.addEventListener('click', function () {
             const modalImage = document.getElementById('modalImage');
 
             // Set the image source
             modalImage.src = this.src;
 
             // IMPORTANT: Copy all data attributes from the clicked image to modalImage
-            modalImage.dataset.location   = this.dataset.location   || 'Not specified';
-            modalImage.dataset.dateFound  = this.dataset.dateFound  || 'Not specified';
-            modalImage.dataset.createdAt  = this.dataset.createdAt  || 'Not specified';
-            modalImage.dataset.desc       = this.dataset.desc       || 'No description';
-            modalImage.dataset.fullphoto  = this.dataset.fullphoto  || '';
+            modalImage.dataset.location = this.dataset.location || 'Not specified';
+            modalImage.dataset.dateFound = this.dataset.dateFound || 'Not specified';
+            modalImage.dataset.createdAt = this.dataset.createdAt || 'Not specified';
+            modalImage.dataset.desc = this.dataset.desc || 'No description';
+            modalImage.dataset.fullphoto = this.dataset.fullphoto || '';
 
             // Reset form
             successMsg.style.display = 'none';
@@ -90,25 +90,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(bodyData)
             })
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`Server responded with ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(data => {
-                if (data.message) {
-                    successMsg.style.display = 'block';
-                    submitBtn.style.display = 'none';
-                    emailInput.disabled = true; // prevent double submit
-                } else {
-                    alert('Error: ' + (data.error || 'Unknown error'));
-                }
-            })
-            .catch(err => {
-                console.error('Fetch error:', err);
-                alert('Failed to send inquiry: ' + err.message);
-            });
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Server responded with ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    if (data.message) {
+                        successMsg.style.display = 'block';
+                        submitBtn.style.display = 'none';
+                        emailInput.disabled = true; // prevent double submit
+                    } else {
+                        alert('Error: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(err => {
+                    console.error('Fetch error:', err);
+                    alert('Failed to send inquiry: ' + err.message);
+                });
         };
     }
 });

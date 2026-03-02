@@ -12,19 +12,22 @@ unset($_SESSION['form_status']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCTVS Lost and Found - Report a Found Item</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <header>
             <div class="logo-container">
                 <a href="index.html">
-                <img src="images/pctvslogo.png" alt="PCTVS Lost and Found Logo" class="logo">
-                </a>             </div>
+                    <img src="images/pctvslogo.png" alt="PCTVS Lost and Found Logo" class="logo">
+                </a>
+            </div>
         </header>
 
 
@@ -32,8 +35,8 @@ unset($_SESSION['form_status']);
             <!-- New wrapper class just for this page's form card -->
             <div class="report-card">
                 <h1>Report a Found Item</h1>
-<?php if ($message): ?>
-    <div style="
+                <?php if ($message): ?>
+                    <div style="
         padding: 12px 20px;
         margin: 15px 0;
         border-radius: 6px;
@@ -42,9 +45,9 @@ unset($_SESSION['form_status']);
         border: 1px solid <?= $status === 'success' ? '#a5d6a7' : '#ef9a9a' ?>;
         text-align: center;
         font-weight: 500;">
-        <?= htmlspecialchars($message) ?>
-    </div>
-<?php endif; ?>
+                        <?= htmlspecialchars($message) ?>
+                    </div>
+                <?php endif; ?>
 
                 <form class="report-form"
                     method="POST"
@@ -89,7 +92,7 @@ unset($_SESSION['form_status']);
 
                     <div class="form-field">
                         <label for="date-found">Date Found</label>
-                        <input type="date" id="date-found" name="date_found" 
+                        <input type="date" id="date-found" name="date_found"
                             value="<?php echo date('Y-m-d'); ?>" required>
                     </div>
 
@@ -105,28 +108,29 @@ unset($_SESSION['form_status']);
                         <div class="image-preview" id="thumbnailPreview">
                             <span class="preview-label">Preview:</span>
                             <img id="thumbnailPreviewImg" alt="Thumbnail preview">
-                        </div>                        
-                    </div>                    
+                        </div>
+                    </div>
 
                     <button type="submit" class="submit-button">Submit Report</button>
                 </form>
             </div>
 
 
-<!-- Quarter-circle corner label -->
-<a href="find.php">
-    <div class="corner-quarter">
-        <div class="corner-text">
-            Find a<br>Lost Item
-        </div>
-    </div>
-</a>
-</main>
+            <!-- Quarter-circle corner label -->
+            <a href="find.php">
+                <div class="corner-quarter">
+                    <div class="corner-text">
+                        Find a<br>Lost Item
+                    </div>
+                </div>
+            </a>
+        </main>
     </div>
 
 
     <script src="report.js">
-       
+
     </script>
 </body>
+
 </html>

@@ -15,9 +15,11 @@ body {
 
     /* Fixed non-scrolling gradient */
     background-image: linear-gradient(to bottom, #2B5BA6 0%, #1E3D6B 100%);
-    background-attachment: fixed;          /* ← THIS LINE makes it NOT scroll */
+    background-attachment: fixed;
+    /* ← THIS LINE makes it NOT scroll */
     background-repeat: no-repeat;
-    background-size: cover;                /* fills the whole viewport */
+    background-size: cover;
+    /* fills the whole viewport */
     background-position: center center;
 
     font-family: 'DM Sans', sans-serif;
@@ -41,7 +43,8 @@ body::before {
     pointer-events: none;
     background-image: url(images/questions.png);
     background-repeat: repeat;
-    background-size: 450px auto;     /* adjust this number for denser/looser pattern */
+    background-size: 450px auto;
+    /* adjust this number for denser/looser pattern */
     opacity: 0.5;
 }
 
@@ -50,18 +53,20 @@ body::before {
 @font-face {
     font-family: 'DM Sans';
     src: url('fonts/DM_Sans/DMSans-VariableFont_opsz,wght.ttf') format('truetype-variations'),
-         url('fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf') format('woff2-variations');
+        url('fonts/DM_Sans/DMSans-Italic-VariableFont_opsz,wght.ttf') format('woff2-variations');
     font-weight: 100 1000;
     font-display: swap;
 }
 
 .container {
     width: min(82%, 66vw);
-    min-height: 100vh;               /* can grow taller, no more fixed height */
+    min-height: 100vh;
+    /* can grow taller, no more fixed height */
     display: flex;
     flex-direction: column;
     box-shadow: 0 2rem 6rem rgba(0, 0, 0, 0.5);
-    margin: 0 auto;                  /* centers it horizontally */
+    margin: 0 auto;
+    /* centers it horizontally */
     height: 100%;
 }
 
@@ -89,7 +94,8 @@ main {
     text-align: center;
     display: flex;
     flex-direction: column;
-    align-items: center;             /* centers content inside main */
+    align-items: center;
+    /* centers content inside main */
 }
 
 .content-box {
@@ -105,7 +111,7 @@ main {
     box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
     animation: floatIn 0.8s ease-out;
     width: clamp(22rem, 50vw, 48rem);
-    min-height:40vh;
+    min-height: 40vh;
 }
 
 h1 {
@@ -178,6 +184,7 @@ h1 {
         opacity: 0;
         transform: translateY(1.25rem);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -214,7 +221,8 @@ h1 {
 }
 
 .form-field p {
-    color:#d0eaff;;
+    color: #d0eaff;
+    ;
     font-size: 0.8rem;
 }
 
@@ -229,7 +237,7 @@ h1 {
     color: #0e3e82;
     font-family: inherit;
     outline: none;
-    box-shadow: inset 0 1px 4px rgba(0,0,0,0.08);
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.08);
 }
 
 .form-field select {
@@ -249,7 +257,7 @@ h1 {
 
 .form-field:has(#date-found) {
     display: flex;
-    align-items: center;    
+    align-items: center;
 }
 
 .upload-field {
@@ -309,7 +317,7 @@ h1 {
 .submit-button:hover {
     background: #003479;
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0,74,173,0.35);
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.35);
 }
 
 
@@ -320,10 +328,10 @@ h1 {
     padding: clamp(2rem, 5vh, 4rem);
     background-color: #165cb9;
     border-radius: 1.25rem;
-    box-shadow: 0 0.75rem 3rem rgba(0,0,0,0.25);
+    box-shadow: 0 0.75rem 3rem rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     animation: floatIn 0.8s ease-out;
-    border: 2px solid white ;
+    border: 2px solid white;
 }
 
 .report-card .report-form {
@@ -351,12 +359,12 @@ main:has(.report-card) {
     border-radius: 0 100% 0 0;
     overflow: hidden;
     z-index: 10;
-    box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
     display: block;
-    text-decoration: none;             
-    cursor: pointer;        
-    translate:(-3000px,-10px);              
+    text-decoration: none;
+    cursor: pointer;
+    translate: (-3000px, -10px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -375,28 +383,28 @@ main:has(.report-card) {
 }
 
 .corner-quarter:hover {
-    transform: scale(1.12);            
-    box-shadow: 0 -8px 30px rgba(0,0,0,0.45);
-    filter: brightness(1.1);           
+    transform: scale(1.12);
+    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.45);
+    filter: brightness(1.1);
 }
 
 .corner-quarter:active {
-    transform: scale(0.98);            
+    transform: scale(0.98);
 }
 
 .corner-text {
     bottom: 2rem;
-    left: 6rem;                
+    left: 6rem;
     color: #ffffff;
     font-size: clamp(1.1rem, 2.5vw, 1.4rem);
     font-weight: 700;
     letter-spacing: 0.05rem;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     white-space: nowrap;
     pointer-events: none;
     opacity: 0.95;
-    z-index: 11;               
-    transform: translate(-15%,25%);
+    z-index: 11;
+    transform: translate(-15%, 25%);
 }
 
 .image-preview {
@@ -417,8 +425,8 @@ main:has(.report-card) {
     max-width: 240px;
     max-height: 240px;
     border-radius: 0.6rem;
-    border: 2px solid rgba(255,255,255,0.4);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
     background: white;
 }
 
@@ -436,11 +444,11 @@ main:has(.report-card) {
     padding: clamp(1.5rem, 4vh, 3rem);
     background-color: #165cb9;
     border-radius: 1.25rem;
-    box-shadow: 0 0.75rem 3rem rgba(0,0,0,0.25);
+    box-shadow: 0 0.75rem 3rem rgba(0, 0, 0, 0.25);
     box-sizing: border-box;
     animation: floatIn 0.8s ease-out;
-    border: 2px solid white ;
-    flex:1;
+    border: 2px solid white;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -522,13 +530,13 @@ main:has(.report-card) {
     align-content: flex-start;
 }
 
-.item-card {    
+.item-card {
     border-radius: 1rem;
     text-align: center;
     box-sizing: border-box;
     transition: transform 0.25s ease;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
@@ -536,17 +544,19 @@ main:has(.report-card) {
 .item-card img {
     width: 8vw;
     height: 8vw;
-    aspect-ratio: 1 / 1;              /* square images */
-    object-fit: cover;                /* or contain — your choice */
+    aspect-ratio: 1 / 1;
+    /* square images */
+    object-fit: cover;
+    /* or contain — your choice */
     border-radius: 0.8rem;
-    transition: transform 0.25s ease;    
+    transition: transform 0.25s ease;
     border: 2px solid white;
 
 }
 
 .item-card img:hover {
     transform: translateY(-8px);
-    box-shadow: 0 12px 32px rgba(0,0,0,0.35);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
 }
 
 
@@ -563,16 +573,18 @@ main:has(.report-card) {
 .modal {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.85);
+    background: rgba(0, 0, 0, 0.85);
     z-index: 1000;
 
     display: none;
     justify-content: center;
-    align-items: flex-start;   /* ⬅️ NOT center */
+    align-items: flex-start;
+    /* ⬅️ NOT center */
 
-    overflow-y: auto;          /* ⬅️ allows scrolling */
-    padding: env(safe-area-inset-top) 1rem
-             env(safe-area-inset-bottom) 1rem; /* iOS safe */
+    overflow-y: auto;
+    /* ⬅️ allows scrolling */
+    padding: env(safe-area-inset-top) 1rem env(safe-area-inset-bottom) 1rem;
+    /* iOS safe */
     justify-content: center;
     align-items: center;
 }
@@ -589,7 +601,7 @@ main:has(.report-card) {
     margin: 2rem auto;
 
     position: relative;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 
     transform: scale(0.8);
     opacity: 0;
@@ -626,8 +638,8 @@ main:has(.report-card) {
     display: flex;
     gap: 2rem;
     flex-wrap: wrap;
-            justify-content: center;
-        align-items: center;
+    justify-content: center;
+    align-items: center;
 
 }
 
@@ -638,10 +650,11 @@ main:has(.report-card) {
 
 .modal-image img {
     width: 100%;
-    max-height: 60vh;        /* ⬅️ key fix */
+    max-height: 60vh;
+    /* ⬅️ key fix */
     object-fit: contain;
     border-radius: 1rem;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
     padding: 1rem;
 }
 
@@ -687,7 +700,7 @@ main:has(.report-card) {
 .success-msg {
     margin-top: 1.5rem;
     padding: 1rem;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 0.8rem;
     text-align: center;
     font-size: 1.2rem;
@@ -700,21 +713,24 @@ main:has(.report-card) {
     flex-direction: column;
     gap: 0.6rem;
     margin: 0.8rem 0 0.8rem;
-    width: 100%;                     /* takes full available width */
+    width: 100%;
+    /* takes full available width */
 }
 
 /* Individual chip – full width, × on right, text centered in left part */
 .filter-chip {
     display: flex;
     align-items: center;
-    justify-content: space-between;   /* pushes × to far right */
+    justify-content: space-between;
+    /* pushes × to far right */
     background: #004aad;
     color: white;
     padding: 0.5rem 1rem;
     border-radius: 2rem;
     font-size: 0.9rem;
     transition: background 0.2s;
-    width: 100%;                      /* grows to fill horizontal space */
+    width: 100%;
+    /* grows to fill horizontal space */
     box-sizing: border-box;
 }
 
@@ -735,7 +751,8 @@ main:has(.report-card) {
     color: white;
     line-height: 1;
     padding-left: 0.8rem;
-    margin-left: auto;                /* ensures × stays on far right */
+    margin-left: auto;
+    /* ensures × stays on far right */
 }
 
 /* Make select look consistent with your style */
@@ -855,11 +872,35 @@ main:has(.admin-container) p {
     font-family: inherit;
 }
 
-button.approve { background-color: #1b5e20; color: white; display: none;}
-button.reject { background-color: #c62828; color: white; display: none;}
-button.save { background-color: #004aad; color: white; display: none;}
-button.remove { background-color: #c62828; color: white; display: none;}
-button.return { background-color: #a128c6; color: white; display: none;}
+button.approve {
+    background-color: #1b5e20;
+    color: white;
+    display: none;
+}
+
+button.reject {
+    background-color: #c62828;
+    color: white;
+    display: none;
+}
+
+button.save {
+    background-color: #004aad;
+    color: white;
+    display: none;
+}
+
+button.remove {
+    background-color: #c62828;
+    color: white;
+    display: none;
+}
+
+button.return {
+    background-color: #a128c6;
+    color: white;
+    display: none;
+}
 
 .top-bar {
     display: flex;
@@ -885,7 +926,7 @@ main:has(.top-bar) {
 .refresh-button {
     background-color: white;
     padding: 0.5rem 1rem;
-    border-radius:0.8rem;
+    border-radius: 0.8rem;
     font-family: inherit;
     font-size: 1rem;
 }
@@ -897,7 +938,7 @@ main:has(.top-bar) {
 
 #modeSelect {
     font-family: inherit;
-    border-radius:0.8rem;
+    border-radius: 0.8rem;
 }
 
 .top-bar div {
@@ -982,6 +1023,7 @@ textarea:not(:read-only) {
         flex-direction: column;
         margin: 0rem 0 1rem;
     }
+
     .content-box {
         margin-top: 5vh;
         margin-bottom: 2vh
@@ -1001,11 +1043,12 @@ textarea:not(:read-only) {
         width: clamp(120px, 25vw, 180px);
         height: clamp(120px, 25vw, 180px);
     }
-    
+
     .corner-text {
         font-size: clamp(1rem, 4vw, 1.3rem);
         bottom: 25%;
     }
+
     .content-box h1 {
         padding: 0 1rem 0rem;
     }
@@ -1016,9 +1059,11 @@ textarea:not(:read-only) {
     .item-card {
         flex: 0 0 calc((100% - clamp(1rem, 2.5vw, 1.8rem)) / 2);
     }
+
     .container {
         width: 100%;
     }
+
     .content-box {
         width: 75vw;
         padding: 2rem;
@@ -1062,7 +1107,7 @@ textarea:not(:read-only) {
     }
 
     .corner-text {
-        left:13vw;
+        left: 13vw;
     }
 
     .action-button {
@@ -1074,7 +1119,8 @@ textarea:not(:read-only) {
         flex-direction: column;
         gap: 0.8rem;
         margin: 0.8rem 0 0;
-        width: 100%;                     /* takes full available width */
+        width: 100%;
+        /* takes full available width */
     }
 
     .box-image img {
@@ -1084,7 +1130,7 @@ textarea:not(:read-only) {
     .results-grid {
         grid-template-columns: repeat(2, 1fr);
     }
-    
+
     .item-card img {
         width: 6rem;
         height: 6rem;
@@ -1100,7 +1146,7 @@ textarea:not(:read-only) {
         justify-content: center;
         gap: 0.8rem;
     }
-    
+
     .filters select,
     .reset-btn {
         min-width: 130px;
@@ -1127,13 +1173,16 @@ textarea:not(:read-only) {
         justify-content: center;
         align-items: center;
     }
+
     .admin-container {
         flex-direction: column;
         width: 90%;
     }
+
     .admin-list {
         flex-direction: row;
     }
+
     .admin-list {
         flex-direction: row;
     }
@@ -1141,14 +1190,14 @@ textarea:not(:read-only) {
 }
 
 @media (width: 948px) and (height: 810px) {
-    .item-card img { 
+    .item-card img {
         height: 13vw;
         width: 13vw;
     }
 }
 
 @media (width: 810px) and (height: 948px) {
-    .item-card img { 
+    .item-card img {
         height: 13vw;
         width: 13vw;
     }

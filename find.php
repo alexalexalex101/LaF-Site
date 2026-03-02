@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PCTVS Lost and Found - Find a Lost Item</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
         <header>
             <div class="logo-container">
                 <a href="index.html">
-                <img src="images/pctvslogo.png" alt="PCTVS Lost and Found Logo" class="logo">
-                </a> 
+                    <img src="images/pctvslogo.png" alt="PCTVS Lost and Found Logo" class="logo">
+                </a>
             </div>
         </header>
 
@@ -86,37 +88,37 @@
                             ?>
                         </div>
 
-                <!-- Modal structure (add at bottom of body, before </body>) -->
-                <!-- Original Modal with Inquiry Form inserted -->
-                <div id="itemModal" class="modal">
-                    <div class="modal-content">
-                        <span class="close-modal">×</span>
+                        <!-- Modal structure (add at bottom of body, before </body>) -->
+                        <!-- Original Modal with Inquiry Form inserted -->
+                        <div id="itemModal" class="modal">
+                            <div class="modal-content">
+                                <span class="close-modal">×</span>
 
-                        <h2>Item Inquiry</h2>
+                                <h2>Item Inquiry</h2>
 
-                        <div class="modal-layout">
-                            <!-- Left: Image -->
-                            <div class="modal-image">
-                                <img id="modalImage" src="" alt="Lost Item">
-                            </div>
+                                <div class="modal-layout">
+                                    <!-- Left: Image -->
+                                    <div class="modal-image">
+                                        <img id="modalImage" src="" alt="Lost Item">
+                                    </div>
 
-                            <!-- Right: Inquiry Form -->
-                            <div class="inquiry-form">
-                                <p>Is this your item?<br>Submit an inquiry form for more information!</p>
+                                    <!-- Right: Inquiry Form -->
+                                    <div class="inquiry-form">
+                                        <p>Is this your item?<br>Submit an inquiry form for more information!</p>
 
-                                <label for="inquiryEmail">Enter Email Address</label>
-                                <input type="email" id="inquiryEmail" placeholder="your@email.com" required>
+                                        <label for="inquiryEmail">Enter Email Address</label>
+                                        <input type="email" id="inquiryEmail" placeholder="your@email.com" required>
 
-                                <button id="inquirySubmit" class="submit-button">Submit</button>
+                                        <button id="inquirySubmit" class="submit-button">Submit</button>
 
-                                <!-- Fake success message -->
-                                <div id="inquirySuccess" class="success-msg" style="display:none;">
-                                    Inquiry sent! We'll contact you soon.
+                                        <!-- Fake success message -->
+                                        <div id="inquirySuccess" class="success-msg" style="display:none;">
+                                            Inquiry sent! We'll contact you soon.
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
                     </section>
                 </div>
@@ -124,18 +126,19 @@
             </div>
         </main>
     </div>
-<!-- Quarter-circle corner label -->
-<a href="report.php">
-    <div class="corner-quarter">
-        <div class="corner-text">
-            Report a<br>Lost Item
+    <!-- Quarter-circle corner label -->
+    <a href="report.php">
+        <div class="corner-quarter">
+            <div class="corner-text">
+                Report a<br>Lost Item
+            </div>
         </div>
-    </div>
-</a> 
-</main>
+    </a>
+    </main>
     </div>
 
     <script src="find.js">
     </script>
 </body>
+
 </html>

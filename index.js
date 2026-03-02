@@ -1,8 +1,8 @@
 document.getElementById("reportbutton").onclick = function () {
-        location.href = "report.php";
-    };
+    location.href = "report.php";
+};
 
 document.getElementById("findbutton").onclick = function () {
-        location.href = "find.php";
-    };    
+    location.href = "find.php";
+};
 

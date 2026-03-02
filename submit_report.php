@@ -52,7 +52,7 @@ $photoName = null;
 if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
     $file = $_FILES['photo'];
     $ext  = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-    $allowed = ['jpg','jpeg','png','gif','webp'];
+    $allowed = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
 
     if (!in_array($ext, $allowed)) {
         $_SESSION['form_status'] = 'error';
@@ -100,4 +100,3 @@ $conn->close();
 
 header("Location: report.php");
 exit;
-?>
