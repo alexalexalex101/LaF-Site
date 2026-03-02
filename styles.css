@@ -28,6 +28,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    overflow-y: auto;
 }
 
 /* Fixed repeating pattern that covers entire scrolled page */
