@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PCTVS Lost and Found</title>
+    <title>PCTVS Lost and Found - Dashboard</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -19,33 +19,57 @@
         </header>
 
         <main>
-            <div class="flexcolumn">
-                <div class="content-box">
-                    <h1>WOULD YOU LIKE TO...</h1>
+            <div class="dashboard-hero flexcolumn">
+                <h1>WHAT WOULD YOU LIKE TO DO?</h1>
+                <p class="subtitle">Choose an option below to get started.</p>
 
-                    <div class="button-container">
-                        <button class="action-button" id="reportbutton">
-                            <span class="button-text">REPORT A<br>FOUND ITEM</span>
+                <div class="card-pair">
+                    <!-- Report Card -->
+                    <div class="option-card content-box">
+                        <img src="images/magnifying-box.png" alt="Report found item"
+                            onerror="this.src='images/boxlogo.png'">
+                        <h2>Report a Found Item</h2>
+                        <p>Report an item you've found and help others retrieve their lost belongings.</p>
+                        <button class="submit-button" onclick="location.href='report.php'">
+                            Report Item →
                         </button>
+                    </div>
 
-                        <span class="or-text">OR...</span>
-
-                        <button class="action-button" id="findbutton">
-                            <span class="button-text">FIND A LOST<br>ITEM</span>
+                    <!-- Find Card -->
+                    <div class="option-card content-box">
+                        <img src="images/magnifying-keys.png" alt="Find lost item"
+                            onerror="this.src='images/boxlogo.png'">
+                        <h2>Find a Lost Item</h2>
+                        <p>Search through the lost and found inventory for your missing item.</p>
+                        <button class="submit-button" onclick="location.href='find.php'">
+                            Find Item →
                         </button>
                     </div>
                 </div>
-
-
             </div>
-            <div class="box-image">
-                <img src="images/boxlogo.png" alt="Lost and Found Box">
+
+            <!-- Stats bar -->
+            <div class="stats-bar">
+                <div class="stat-block">
+                    <div class="emoji">📦 ↩️</div>
+                    <div class="number stat-returned">45</div> <!-- ← add class -->
+                    <div class="label">Items Returned</div>
+                </div>
+                <div class="stat-block">
+                    <div class="emoji">📦 🔍</div>
+                    <div class="number stat-found-today">12</div> <!-- ← add class -->
+                    <div class="label">Lost Items</div>
+                </div>
+                <div class="stat-block">
+                    <div class="emoji">📋 ⚠️</div>
+                    <div class="number stat-pending">7</div> <!-- ← add class -->
+                    <div class="label">Pending Reports</div>
+                </div>
             </div>
         </main>
     </div>
 
     <script src="index.js"></script>
-
 </body>
 
 </html>

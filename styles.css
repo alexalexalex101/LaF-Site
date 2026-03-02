@@ -1003,9 +1003,108 @@ textarea:not(:read-only) {
     text-align: center;
 }
 
+/* New - for the two big option cards */
+.dashboard-hero {
+    text-align: center;
+    padding: clamp(3rem, 5vh, 5rem) 1rem 2rem;
+    width: 100%;
+}
+
+.card-pair {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    max-width: 1100px;
+}
+
+.option-card {
+    background-color: #165cb9;
+    /* matches your content-box */
+    border-radius: 1.25rem;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.2);
+    padding: clamp(2rem, 4vh, 3rem);
+    width: clamp(320px, 45%, 480px);
+    animation: floatIn 0.8s ease-out;
+    border: 2px solid white;
+    /* optional — matches admin style */
+    text-align: center;
+    margin: 1rem 1rem;
+}
+
+
+
+.subtitle {
+    color: #d0eaff;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    width: 80%;
+}
+
+.option-card img {
+    height: 160px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0.25rem 0.75rem rgba(0, 0, 0, 0.2));
+}
+
+.option-card .submit-button {
+    margin-top: 0;
+}
+
+.option-card h2 {
+    color: white;
+    font-size: clamp(1.7rem, 3vw, 2.2rem);
+    margin: 0 0 1rem;
+}
+
+.option-card p {
+    color: #d0eaff;
+    font-size: clamp(1rem, 2.2vw, 1.15rem);
+    line-height: 1.5;
+    margin: 0 0 1.5rem;
+    width: 80%;
+}
+
+/* New - stats bar at bottom */
+.stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(3rem, 6vw, 8rem);
+    padding: clamp(2.5rem, 6vh, 4rem) 1rem;
+    margin-top: auto;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-block {
+    text-align: center;
+    min-width: 160px;
+}
+
+.stat-block .emoji {
+    font-size: clamp(2.8rem, 8vw, 4rem);
+    margin-bottom: 0.6rem;
+}
+
+.stat-block .number {
+    color: white;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+}
+
+.stat-block .label {
+    color: #d0eaff;
+    font-size: clamp(1rem, 2.3vw, 1.25rem);
+}
+
 @media (min-height:607px) {
     .content-box {
-        padding: 3rem 0 3rem;
+        padding: 3rem 1rem 3rem;
         width: 45vw;
     }
 
@@ -1025,7 +1124,6 @@ textarea:not(:read-only) {
     }
 
     .content-box {
-        margin-top: 5vh;
         margin-bottom: 2vh
     }
 }
@@ -1067,7 +1165,21 @@ textarea:not(:read-only) {
     .content-box {
         width: 75vw;
         padding: 2rem;
+        margin: 1rem 0 1rem;        
     }
+
+    .card-pair {
+        flex-wrap: wrap;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* gap: clamp(2rem, 4vw, 5rem); */
+        width: 100%;
+        max-width: 1100px;
+        align-content: center;
+        padding: 0 2rem 0;
+    }
+
 }
 
 @media (max-width: 560px) {
