@@ -859,6 +859,7 @@ button.approve { background-color: #1b5e20; color: white; display: none;}
 button.reject { background-color: #c62828; color: white; display: none;}
 button.save { background-color: #004aad; color: white; display: none;}
 button.remove { background-color: #c62828; color: white; display: none;}
+button.return { background-color: #a128c6; color: white; display: none;}
 
 .top-bar {
     display: flex;
