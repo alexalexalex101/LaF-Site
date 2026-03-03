@@ -7,8 +7,10 @@ import os
 from dotenv import load_dotenv
 from datetime import datetime
 
+load_dotenv()
+
 app = Flask(__name__)
-CORS(app)  # Allow frontend to call (dev only; restrict in prod)
+CORS(app)
 
 
 # SendGrid API Key (generate at https://sendgrid.com)

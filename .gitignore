@@ -18,9 +18,14 @@ __pycache__/
 .env.*
 *.env
 
-# Large/generated folders (optional — add if you don't want to track uploads)
-uploads/
+# Ignore everything in uploads
 uploads/*
+
+# Allow the examples folder
+!uploads/examples/
+
+# Allow everything inside examples
+!uploads/examples/**
 
 # macOS / Windows junk
 .DS_Store

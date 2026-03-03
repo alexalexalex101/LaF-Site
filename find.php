@@ -88,8 +88,25 @@
                             ?>
                         </div>
 
-                        <!-- Modal structure (add at bottom of body, before </body>) -->
-                        <!-- Original Modal with Inquiry Form inserted -->
+                    </section>
+                </div>
+
+            </div>
+        </main>
+    </div>
+    <!-- Quarter-circle corner label -->
+    <a href="report.php">
+        <div class="corner-quarter">
+            <div class="corner-text">
+                Report a<br>Lost Item
+            </div>
+        </div>
+    </a>
+    </main>
+    </div>
+
+    <script src="find.js">
+    </script>
                         <div id="itemModal" class="modal">
                             <div class="modal-content">
                                 <span class="close-modal">×</span>
@@ -119,26 +136,6 @@
                                 </div>
                             </div>
                         </div>
-
-                    </section>
-                </div>
-
-            </div>
-        </main>
-    </div>
-    <!-- Quarter-circle corner label -->
-    <a href="report.php">
-        <div class="corner-quarter">
-            <div class="corner-text">
-                Report a<br>Lost Item
-            </div>
-        </div>
-    </a>
-    </main>
-    </div>
-
-    <script src="find.js">
-    </script>
 </body>
 
 </html>

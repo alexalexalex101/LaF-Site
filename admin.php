@@ -20,10 +20,28 @@ if (isset($_POST['action'], $_POST['id'])) {
         $stmt->execute();
         $stmt->close();
     } elseif ($action === 'reject' || $action === 'remove') {
-        $stmt = $conn->prepare("DELETE FROM lost_items WHERE id=?");
+        // First, get the photo filename from DB (so we can delete the file)
+        $stmt = $conn->prepare("SELECT photo FROM lost_items WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
+        $result = $stmt->get_result();
+        $row = $result->fetch_assoc();
+        $photo = $row['photo'] ?? null;
         $stmt->close();
+
+        // Delete the database row
+        $stmt = $conn->prepare("DELETE FROM lost_items WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $success = $stmt->execute();
+        $stmt->close();
+
+        // If DB delete succeeded AND there was a photo, delete the physical file
+        if ($success && $photo) {
+            $filePath = __DIR__ . '/uploads/' . $photo;
+            if (file_exists($filePath)) {
+                unlink($filePath);  // ← this deletes the file from server
+            }
+        }
     } elseif ($action === 'return') {
         $stmt = $conn->prepare("
         UPDATE lost_items 
