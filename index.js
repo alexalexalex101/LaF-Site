@@ -29,8 +29,6 @@ async function loadStats() {
     statsContainer.style.pointerEvents = "none";
 
     try {
-        // Change this URL to your actual endpoint
-        // Example: "api/stats.php" or "dashboard-stats.json"
         const response = await fetch("api/get_stats.php", {
             method: "GET",
             headers: { "Accept": "application/json" }
@@ -42,14 +40,14 @@ async function loadStats() {
 
         const data = await response.json();
 
-        // Expected shape (you define this in backend):
+        // Expected shape:
         // {
-        //   foundToday: 12,
+        //   lost: 12,
         //   returned: 45,
         //   pending: 7
         // }
 
-        updateStat(".stat-lost-today", data.lostToday ?? "—");
+        updateStat(".stat-lost", data.lost ?? "—");
         updateStat(".stat-returned", data.returned ?? "—");
         updateStat(".stat-pending", data.pending ?? "—");
 

@@ -16,7 +16,8 @@ CREATE TABLE `lost_items` (
   `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `location` VARCHAR(50) NOT NULL DEFAULT 'Main L&F',
   `date_found` DATE NOT NULL DEFAULT CURDATE(),
-  `status` VARCHAR(20) DEFAULT 'pending',
+  `date_returned` DATE DEFAULT NULL,
+  `status` ENUM('pending', 'approved', 'returned') DEFAULT 'pending',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -27,4 +28,4 @@ INSERT INTO `lost_items` (`id`, `item_type`, `description`, `photo`, `created_at
 (50, 'clothing', 'A black Nike zip-up hoodie with the classic swoosh logo on the chest. It has a hood and ribbed cuffs/hem, showing some light wear.', 'example1.webp', '2026-01-14 00:00:27', 'Athletic Center Lost & Found', '2026-01-08', 'approved', NULL),
 (51, 'jewelry', 'A rose gold Kate Spade watch with a navy blue leather strap and matching navy face. The case is round with a simple, elegant design.', 'watch.webp', '2026-01-14 00:01:58', 'Stem Building Lost & Found', '2025-12-11', 'approved', NULL),
 (52, 'electronics', 'A closed Lenovo Chromebook Plus with a gray lid and \"Lenovo\" logo in the corner. The screen is off, reflecting the surroundings.', 'chromebook.webp', '2026-01-14 00:02:22', 'Main Building Lost & Found', '2026-01-13', 'approved', NULL),
-(54, 'keys', 'A dark brown leather bifold wallet, opened to show empty card slots and bill compartment. It appears well-used with some wear on the edges.', 'wallet.webp', '2026-01-14 00:04:16', 'Rocco Building Lost & Found', '2026-01-18', 'approved', NULL),
+(54, 'keys', 'A dark brown leather bifold wallet, opened to show empty card slots and bill compartment. It appears well-used with some wear on the edges.', 'wallet.webp', '2026-01-14 00:04:16', 'Rocco Building Lost & Found', '2026-01-18', 'approved', NULL);

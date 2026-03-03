@@ -31,14 +31,13 @@ if ($conn->connect_error) {
 // 1. Lost Items Reported Today
 //    (new reports created today that are still pending)
 // ────────────────────────────────────────────────
-$result_lost_today = $conn->query("
+$result_lost = $conn->query("
     SELECT COUNT(*) as count
     FROM lost_items
-    WHERE DATE(created_at) = CURDATE()
-      AND status = 'pending'
+    WHERE status = 'approved'
 ");
 
-$lost_today = $result_lost_today ? (int)$result_lost_today->fetch_assoc()['count'] : 0;
+$lost = $result_lost ? (int)$result_lost->fetch_assoc()['count'] : 0;
 
 // ────────────────────────────────────────────────
 // 2. Total Items Returned (cumulative)
@@ -66,13 +65,13 @@ $pending = $result_pending ? (int)$result_pending->fetch_assoc()['count'] : 0;
 // Send JSON response
 // ────────────────────────────────────────────────
 echo json_encode([
-    'lostToday'   => $lost_today,     // for "Lost Items Reported Today"
-    'returned'    => $returned,       // for "Items Returned"
-    'pending'     => $pending         // for "Pending Reports"
+    'lost'   => $lost,     // for "Lost Items Reported"
+    'returned' => $returned,       // for "Items Returned"
+    'pending'  => $pending         // for "Pending Reports"
 ]);
 
 // Clean up
-$result_lost_today->free();
+$result_lost->free();
 $result_returned->free();
 $result_pending->free();
 $conn->close();
