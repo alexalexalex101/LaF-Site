@@ -655,6 +655,7 @@ main:has(.report-card) {
     font-size: 1.25rem;
     margin-bottom: 1.5rem;
     line-height: 1.4;
+    text-align: center;
 }
 
 .inquiry-form label {
@@ -1269,7 +1270,7 @@ body.loaded .results-grid .item-card {
 .form-field:nth-child(5) { animation-delay: 1.6s; } /* upload field */
 
 /* 4. Submit button pops in last */
-.submit-button {
+.report-form .submit-button {
     opacity: 0;
     transform: scale(0.9);
     animation: buttonPop 0.6s ease-out forwards;
