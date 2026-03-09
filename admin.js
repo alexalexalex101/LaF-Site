@@ -16,12 +16,7 @@ const textarea = detailDesc;
 const itemListContainer = document.getElementById('itemList');
 const helpText = document.getElementById('help-text');
 const detailDateReturned = document.getElementById('detailDateReturned');
-
-// Dynamic empty message
-const emptyMessage = document.createElement('div');
-emptyMessage.className = 'admin-list-empty';
-emptyMessage.style.display = 'none';
-itemListContainer.appendChild(emptyMessage);
+const adminStatus = document.getElementById('adminStatus');
 
 // Prevent native form submit
 document.getElementById('actionForm').addEventListener('submit', e => e.preventDefault());
@@ -30,10 +25,27 @@ function getCurrentItems() {
     return itemListContainer.querySelectorAll('.admin-list-item');
 }
 
+function getEmptyMessageElement() {
+    let empty = itemListContainer.querySelector('.admin-list-empty.dynamic-empty');
+    if (!empty) {
+        empty = document.createElement('div');
+        empty.className = 'admin-list-empty dynamic-empty';
+        empty.style.display = 'none';
+        itemListContainer.appendChild(empty);
+    }
+    return empty;
+}
+
+function setStatus(message, type = 'info') {
+    if (!adminStatus) return;
+    adminStatus.textContent = message;
+    adminStatus.className = `admin-status ${type}`;
+}
+
 function handleAction(action) {
     const id = formId.value;
     if (!id || !action) {
-        alert('No item selected');
+        setStatus('Select an item first.', 'warning');
         return;
     }
 
@@ -110,7 +122,7 @@ function handleAction(action) {
                     break;
             }
 
-            alert(message);
+            setStatus(message, 'success');
             updateEmptyMessage();
             updateView();
             // Auto-load next item only on success
@@ -118,6 +130,7 @@ function handleAction(action) {
         })
         .catch(err => {
             console.error('Action failed:', err);
+            setStatus(`Failed to process action: ${err.message}`, 'error');
             alert('Failed to process action: ' + err.message);
         });
 }
@@ -161,17 +174,24 @@ function updateView() {
 
 function updateEmptyMessage() {
     const mode = modeSelect.value;
-    const items = getCurrentItems();
     const visibleItems = Array.from(getCurrentItems()).filter(item => item.style.display !== 'none');
+    const emptyMessage = getEmptyMessageElement();
+
+    const modeMessage =
+        mode === 'incoming' ? 'No pending reports right now.'
+            : mode === 'existing' ? 'No approved items yet.'
+                : 'No returned items yet.';
 
     if (visibleItems.length === 0) {
-        emptyMessage.textContent =
-            mode === 'incoming' ? 'No pending reports'
-                : mode === 'existing' ? 'No approved items yet'
-                    : 'No returned items yet';
+        emptyMessage.textContent = modeMessage;
         emptyMessage.style.display = 'block';
+        setStatus(modeMessage, 'info');
     } else {
         emptyMessage.style.display = 'none';
+        if (adminStatus && adminStatus.classList.contains('info')) {
+            adminStatus.textContent = '';
+            adminStatus.className = 'admin-status';
+        }
     }
 }
 
@@ -218,8 +238,16 @@ document.getElementById('refreshBtn')?.addEventListener('click', async () => {
             });
 
             updateView();
+            const visibleAfterRefresh = Array.from(getCurrentItems()).filter(item => item.style.display !== 'none').length;
+            if (visibleAfterRefresh === 0) {
+                updateEmptyMessage();
+                setStatus('List refreshed. No items in this section.', 'info');
+            } else {
+                setStatus('List refreshed.', 'success');
+            }
         }
     } catch (err) {
+        setStatus(`Refresh failed: ${err.message}`, 'error');
         alert('Refresh failed: ' + err.message);
     } finally {
         const btn = document.getElementById('refreshBtn');

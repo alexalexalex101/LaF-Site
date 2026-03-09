@@ -99,11 +99,11 @@ unset($_SESSION['form_status']);
                     <input type="hidden" name="user_timezone" id="userTimezone">
 
                     <div class="form-field upload-field">
-                        <label>Upload Thumbnail</label>
+                        <label for="thumbnail">Upload Thumbnail</label>
                         <div class="custom-file-upload">
-                            <input type="file" id="thumbnail" name="photo" accept="image/*" hidden>
-                            <button type="button" class="file-btn">Choose File</button>
-                            <span class="file-info">No file selected</span>
+                            <input type="file" id="thumbnail" name="photo" accept="image/*" class="visually-hidden-input" aria-describedby="thumbnailStatus">
+                            <button type="button" class="file-btn" aria-controls="thumbnail">Choose File</button>
+                            <span class="file-info" id="thumbnailStatus" aria-live="polite">No file selected</span>
                         </div>
                         <div class="image-preview" id="thumbnailPreview">
                             <span class="preview-label">Preview:</span>

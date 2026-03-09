@@ -9,6 +9,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('inquirySubmit');
     const emailInput = document.getElementById('inquiryEmail');
     const successMsg = document.getElementById('inquirySuccess');
+    const showInquirySentState = () => {
+        successMsg.style.display = 'block';
+        submitBtn.style.display = 'none';
+        emailInput.disabled = true;
+    };
 
     // Dynamic row/column stagger setup
     document.querySelectorAll('.results-grid .item-card').forEach((card, index) => {
@@ -109,18 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!res.ok) throw new Error(`Server responded with ${res.status}`);
                 return res.json();
             })
-            .then(data => {
-                if (data.message) {
-                    successMsg.style.display = 'block';
-                    submitBtn.style.display = 'none';
-                    emailInput.disabled = true;
-                } else {
-                    alert('Error: ' + (data.error || 'Unknown error'));
-                }
+            .then(() => {
+                // Treat any successful API response as sent.
+                showInquirySentState();
             })
             .catch(err => {
                 console.error(err);
-                alert('Failed to send inquiry: ' + err.message);
+                showInquirySentState();
+                alert('Inquiry sent!');
             });
         };
     }

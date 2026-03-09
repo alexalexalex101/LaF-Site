@@ -121,61 +121,57 @@ $returned = $conn->query("SELECT * FROM lost_items WHERE status='returned' ORDER
             </div>
 
             <p id="help-text"></p>
+            <div id="adminStatus" class="admin-status" aria-live="polite"></div>
 
             <div class="admin-container">
                 <div class="admin-list" id="itemList">
-                    <?php if ($incoming->num_rows === 0 && $existing->num_rows === 0): ?>
-                        <div class="admin-list-empty">No items to display</div>
-                    <?php else: ?>
-                        <!-- Incoming (pending) reports -->
-                        <?php while ($item = $incoming->fetch_assoc()): ?>
-                            <div class="admin-list-item"
-                                data-mode="incoming"
-                                data-id="<?= $item['id'] ?>"
-                                data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
-                                data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
-                                data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
-                                data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
-                                data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
-                                data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>">
-                                Report #<?= $item['id'] ?>
-                            </div>
-                        <?php endwhile; ?>
+                    <!-- Incoming (pending) reports -->
+                    <?php while ($item = $incoming->fetch_assoc()): ?>
+                        <div class="admin-list-item"
+                            data-mode="incoming"
+                            data-id="<?= $item['id'] ?>"
+                            data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
+                            data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
+                            data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
+                            data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
+                            data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
+                            data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>">
+                            Report #<?= $item['id'] ?>
+                        </div>
+                    <?php endwhile; ?>
 
-                        <!-- Existing (approved) items -->
-                        <?php while ($item = $existing->fetch_assoc()): ?>
-                            <div class="admin-list-item"
-                                data-mode="existing"
-                                data-id="<?= $item['id'] ?>"
-                                data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
-                                data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
-                                data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
-                                data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
-                                data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
-                                data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>"
-                                style="display: none;">
-                                Report #<?= $item['id'] ?>
-                            </div>
-                        <?php endwhile; ?>
+                    <!-- Existing (approved) items -->
+                    <?php while ($item = $existing->fetch_assoc()): ?>
+                        <div class="admin-list-item"
+                            data-mode="existing"
+                            data-id="<?= $item['id'] ?>"
+                            data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
+                            data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
+                            data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
+                            data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
+                            data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
+                            data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>"
+                            style="display: none;">
+                            Report #<?= $item['id'] ?>
+                        </div>
+                    <?php endwhile; ?>
 
-                        <!-- Returned items -->
-                        <?php while ($item = $returned->fetch_assoc()): ?>
-                            <div class="admin-list-item"
-                                data-mode="returned"
-                                data-id="<?= $item['id'] ?>"
-                                data-date-returned="<?= htmlspecialchars($item['date_returned'] ?? '') ?>"
-                                data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
-                                data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
-                                data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
-                                data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
-                                data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
-                                data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>"
-                                style="display:none;">
-                                Report #<?= $item['id'] ?>
-                            </div>
-                        <?php endwhile; ?>
-
-                    <?php endif; ?>
+                    <!-- Returned items -->
+                    <?php while ($item = $returned->fetch_assoc()): ?>
+                        <div class="admin-list-item"
+                            data-mode="returned"
+                            data-id="<?= $item['id'] ?>"
+                            data-date-returned="<?= htmlspecialchars($item['date_returned'] ?? '') ?>"
+                            data-photo="<?= htmlspecialchars($item['photo'] ?? '') ?>"
+                            data-type="<?= htmlspecialchars($item['item_type'] ?? 'Unknown') ?>"
+                            data-desc="<?= htmlspecialchars($item['description'] ?? '') ?>"
+                            data-location="<?= htmlspecialchars($item['location'] ?? 'Not specified') ?>"
+                            data-date-found="<?= htmlspecialchars($item['date_found'] ?? 'Not specified') ?>"
+                            data-created-at="<?= htmlspecialchars($item['created_at'] ?? 'Not specified') ?>"
+                            style="display:none;">
+                            Report #<?= $item['id'] ?>
+                        </div>
+                    <?php endwhile; ?>
                 </div>
 
                 <div class="admin-detail" id="itemDetail">

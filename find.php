@@ -20,12 +20,12 @@
 
         <main>
             <div class="search-card">
+                <h1 class="visually-hidden">Find a Lost Item</h1>
                 <div class="layout">
-
                     <aside class="filters">
-                        <button class="reset-btn" id="resetFilters">Reset Filters</button>
+                        <button type="button" class="reset-btn" id="resetFilters">Reset Filters</button>
 
-                        <!-- Filter by Type -->
+                        <label for="typeFilter" class="visually-hidden">Filter items by type</label>
                         <select id="typeFilter" class="type-select">
                             <option value="" disabled selected>Filter by Type</option>
                             <option value="electronics">Electronics</option>
@@ -37,25 +37,22 @@
                             <option value="other">Other</option>
                         </select>
 
-                        <!-- Container for active filter chips -->
                         <div id="activeFilters" class="active-filters"></div>
                     </aside>
 
-                    <!-- Right content -->
                     <section class="results">
-
-                        <!-- Search -->
                         <div class="search-bar">
+                            <label for="searchInput" class="visually-hidden">Search reports</label>
                             <input type="text" id="searchInput" placeholder="Search through reports...">
-                            <button class="search-btn">
-                                <svg viewBox="0 0 24 24" class="search-icon">
+                            <button type="button" class="search-btn" aria-label="Search reports">
+                                <span class="visually-hidden">Search</span>
+                                <svg viewBox="0 0 24 24" class="search-icon" aria-hidden="true" focusable="false">
                                     <circle cx="11" cy="11" r="7"></circle>
                                     <line x1="16.65" y1="16.65" x2="21" y2="21"></line>
                                 </svg>
                             </button>
                         </div>
 
-                        <!-- Cards -->
                         <div class="results-grid">
                             <?php
                             date_default_timezone_set('America/New_York');
@@ -69,13 +66,15 @@
                                     $location  = htmlspecialchars($row['location']);
                                     $dateFound = htmlspecialchars($row['date_found']);
                                     $createdAt = htmlspecialchars($row['created_at']);
+                                    $itemId    = (int)$row['id'];
+                                    $imageAlt  = "Found " . $itemType . " item report #" . $itemId;
 
                                     echo '
                                     <div class="item-card">
-                                        <img src="' . $photoPath . '" 
-                                            alt="' . $itemType . '" 
+                                        <img src="' . $photoPath . '"
+                                            alt="' . htmlspecialchars($imageAlt) . '"
                                             class="clickable-image"
-                                            data-id="' . $row['id'] . '"
+                                            data-id="' . $itemId . '"
                                             data-type="' . $itemType . '"
                                             data-desc="' . $desc . '"
                                             data-location="' . $location . '"
@@ -87,55 +86,46 @@
                             }
                             ?>
                         </div>
-
                     </section>
                 </div>
-
             </div>
+
+            <a href="report.php" class="corner-quarter" aria-label="Report a lost item">
+                <span class="corner-text">
+                    Report a<br>Lost Item
+                </span>
+            </a>
         </main>
     </div>
-    <!-- Quarter-circle corner label -->
-    <a href="report.php">
-        <div class="corner-quarter">
-            <div class="corner-text">
-                Report a<br>Lost Item
+
+    <div id="itemModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="itemModalTitle">
+        <div class="modal-content">
+            <button type="button" class="close-modal" aria-label="Close dialog">&times;</button>
+
+            <h2 id="itemModalTitle">Item Inquiry</h2>
+
+            <div class="modal-layout">
+                <div class="modal-image">
+                    <img id="modalImage" src="" alt="Selected lost item">
+                </div>
+
+                <div class="inquiry-form">
+                    <p>Is this your item?<br>Submit an inquiry form for more information!</p>
+
+                    <label for="inquiryEmail">Enter Email Address</label>
+                    <input type="email" id="inquiryEmail" placeholder="your@email.com" required>
+
+                    <button id="inquirySubmit" class="submit-button" type="button">Submit</button>
+
+                    <div id="inquirySuccess" class="success-msg" style="display:none;">
+                        Inquiry sent! We'll contact you soon.
+                    </div>
+                </div>
             </div>
         </div>
-    </a>
-    </main>
     </div>
 
-    <script src="find.js">
-    </script>
-                        <div id="itemModal" class="modal">
-                            <div class="modal-content">
-                                <span class="close-modal">×</span>
-
-                                <h2>Item Inquiry</h2>
-
-                                <div class="modal-layout">
-                                    <!-- Left: Image -->
-                                    <div class="modal-image">
-                                        <img id="modalImage" src="" alt="Lost Item">
-                                    </div>
-
-                                    <!-- Right: Inquiry Form -->
-                                    <div class="inquiry-form">
-                                        <p>Is this your item?<br>Submit an inquiry form for more information!</p>
-
-                                        <label for="inquiryEmail">Enter Email Address</label>
-                                        <input type="email" id="inquiryEmail" placeholder="your@email.com" required>
-
-                                        <button id="inquirySubmit" class="submit-button">Submit</button>
-
-                                        <!-- Fake success message -->
-                                        <div id="inquirySuccess" class="success-msg" style="display:none;">
-                                            Inquiry sent! We'll contact you soon.
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+    <script src="find.js"></script>
 </body>
 
 </html>
